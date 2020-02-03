@@ -1,22 +1,18 @@
-import React from 'react';
+
+import React, {useState} from 'react';
 import './App.css';
+import Dashboard from './pages/Dashboard';
+import { Route } from 'react-router-dom';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Route exact path="/" component={Dashboard} />
+      <Route path="/Register" component={Register}/>
+      <Route path="/Login" component={Login}/>
     </div>
   );
 }
