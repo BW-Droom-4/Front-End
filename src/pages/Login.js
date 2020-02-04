@@ -48,9 +48,9 @@ const Login =({values, errors, touched, status}) =>{
                 </label>
                 <br/>
                 <Field  as="select" id="role" name="role" >
-                    <option disabled>Choose an Option</option>
-                    <option value="Looking to Post Jobs" >Looking to Post Jobs</option>
-                    <option value="Looking For Jobs" >Looking For Jobs</option>
+                    <option >Choose an Option</option>
+                    <option value="Company" >Looking to Post Jobs</option>
+                    <option value="User" >Looking For Jobs</option>
                 </Field>
                 {touched.role && errors.role && (
                 <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.role}</p>
@@ -90,21 +90,29 @@ const FormikLoginForm = withFormik({
             .min(8)
             .max(16)
             .matches()
-            .required("Password is Required.")    
+            .required("Password is Required."),    
+        role: Yup
+            .string()
+            .required()    
 
     }),
     handleSubmit(values, {props, resetForm, setValues}) {
         console.log("submitting", values);
         axios
         .post(
-            (values.role === "Looking to Post Jobs") ? "https://droom-4.herokuapp.com/api/auth/companies/login" : "https://droom-4.herokuapp.com/api/auth/users/login"
+            (values.role === "Company") ? "https://droom-4.herokuapp.com/api/auth/companies/login" : "https://droom-4.herokuapp.com/api/auth/users/login"
             ,
             values
+            ,
+            {headers: {"Content-Type": "application/json"}}
         )
         .then(res => {
             console.log('success', res)
-            props.history.push("/Dashboard")
+            localStorage.setItem('token', res.token);
+            localStorage.setItem("role", values.role)
             resetForm();
+            props.history.push("/Dashboard")
+            
         })
         .catch(err => alert("Login failed", err)
         );
