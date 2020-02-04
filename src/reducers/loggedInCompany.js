@@ -1,19 +1,19 @@
-import { combineReducers } from 'redux';
-
 const initialState = {
     id: 0,
-    firstname: '',
-    lastname: '',
+    companyName: '',
     email: '',
-    password: '',
     role: '',
     created_at: '',
-    updated_at: ''
+    updated_at: '',
+    images: [],
+    profiles: [],
+    job_listings: []
 };
 
 export default (state = initialState, action) => {
-    switch(action.type) {
+    switch(action.payload) {
         default:
             return state;
     }
 };
+

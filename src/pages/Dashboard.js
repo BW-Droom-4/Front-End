@@ -1,19 +1,42 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
+import TinderCard from 'react-tinder-card';
 
-export default function Welcome() {
+const testData = ['hey', 'these', 'swipable', 'cards', 'are', 'neat'].reverse();
+
+const Dashboard = () => {
+
+  const [lastDirection, setLastDirection] = useState()
+
+  const swiped = (direction, nameToDelete) => {
+    console.log('removing: ' + nameToDelete)
+    setLastDirection(direction)
+  }
+
+  const outOfFrame = (name) => {
+    console.log(name + ' left the screen!')
+  }
+
   return (
-    <section className="welcome-page">
-      <header>
-        <h1>Welcome to Droom!</h1>
-        <img src="https://www.businessknowhow.com/uploads/how-to-interview.jpg?ezimgfmt=rs:350x230/rscb2/ng:webp/ngcb2"/>
-        <br/>
-        <Link to={'/Login'}>Login</Link>
-        <Link style = {{ marginLeft: "5%"}} to={'/Register'}>Register</Link>
-      </header>
-    </section>
-  );
+    <div>
+      <div className='cardContainer'>
+        {testData.map(item =>
+          <TinderCard
+            className='swipe'
+            key={item}
+            onSwipe={(dir) =>swiped(dir, item)}
+            onCardLeftScreen={() => outOfFrame(item)}
+          >
+            <div className='card'>
+              <h3>{item}</h3>
+            </div>
+          </TinderCard>
+        )}
+      </div>
+      {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
+    </div>
+  )
 }
+
+export default Dashboard;
