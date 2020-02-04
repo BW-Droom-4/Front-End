@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import shortId from 'shortid';
 
 
+let database = "";
+
 const UserForm = ({ values, errors, touched, status }) => {
 
     return (
@@ -51,10 +53,10 @@ const UserForm = ({ values, errors, touched, status }) => {
             Role:
             </label>
             <br/>
-            <Field  as="select" id="role" type="text" name="role" >
+            <Field  as="select" id="role" type="select" name="role" >
             <option disabled>Choose an Option</option>
-            <option value="Looking to Post Jobs">Looking to Post Jobs</option>
-            <option value="Looking For Jobs">Looking For Jobs</option>
+            <option value="Looking to Post Jobs" onClick={database="https://droom-4.herokuapp.com/api/auth/companies/register"}>Looking to Post Jobs</option>
+            <option value="Looking For Jobs" onClick={database="https://droom-4.herokuapp.com/api/auth/users/register"}>Looking For Jobs</option>
             </Field>
             {touched.role && errors.role && (
             <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.role}</p>
@@ -99,7 +101,7 @@ handleSubmit(values, { resetForm, setErrors, setStatus}) {
         setErrors({ email: "That email is already taken" });
     } else {
         axios
-        .post("", values)
+        .post(database, values)
         .then(res => {
             console.log(res);
             resetForm();
