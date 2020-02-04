@@ -1,3 +1,7 @@
+import { 
+    GET_JOB_LISTINGS_SUCCESS,
+} from '../actions/actions';
+
 const initialState = [];
 
 /*
@@ -16,6 +20,8 @@ const initialState = [];
 
 export default (state = initialState, action) => {
     switch(action.type) {
+        case GET_JOB_LISTINGS_SUCCESS:
+            return action.payload;
         default:
             return state;
     }
