@@ -56,23 +56,26 @@ const Login =({values, errors, touched, status}) =>{
                  <br/>
                  <br/>
 
-                <button type="submit">
+                <button type="submit" onClick={event =>  window.location.href="/"}>
                     Submit
                 </button>
             </Form>
         </div>
     );
 };
-const FormikLogin = withFormik({
+
+const MakeFormikFormOutOfComponent = withFormik({
     mapPropsToValues({
         email,
         password,
         role
     }) {
+        console.log('asd');
         return {
             id: shortid.generate(),
             email: "",
-            password: ""
+            password: "",
+            role: ""
         };
     },
     validationSchema: Yup.object().shape({
@@ -84,7 +87,7 @@ const FormikLogin = withFormik({
             .string()
             .min(8)
             .max(16)
-            .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]$")
+            .matches()
             .required("Password is Required.")    
 
     }),
@@ -102,5 +105,8 @@ const FormikLogin = withFormik({
         .catch(err => console.log(err)
         );
     }
-})
-export default Login
+});
+
+const FormikLogin = MakeFormikFormOutOfComponent(Login);
+
+export default FormikLogin
