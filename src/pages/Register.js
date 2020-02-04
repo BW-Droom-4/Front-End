@@ -2,17 +2,11 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import styled from 'styled-components'
+import styled from 'styled-components';
+import shortId from 'shortid';
 
 
 const UserForm = ({ values, errors, touched, status }) => {
-
-    // const [users, setUsers] = useState([]);
-    // useEffect(() => {
-    //     console.log("Status:", status)
-    //     status && setUsers( users => 
-    //         [...users, status])
-    // },[status]);
 
     return (
     <div>
@@ -47,7 +41,7 @@ const UserForm = ({ values, errors, touched, status }) => {
             Password:
             </label>
             <br/>
-            <Field id="password" type="text" name="password" />
+            <Field id="password" type="password" name="password" />
             {touched.password && errors.password && (
             <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.password}</p>
             )}
@@ -76,33 +70,47 @@ const UserForm = ({ values, errors, touched, status }) => {
 };
 
 const FormikForm = withFormik({
-mapPropsToValues({ name, last, email, password, role, location}) {
+    mapPropsToValues({ name, last, email, password, role}) {
     return {
-    name: name || "",
-    last: last || "",
-    email: email || "",
-    password: password || "",
-    role: role || "",
+        id: shortId.generate(),
+        name: name || "",
+        last: last || "",
+        email: email || "",
+        password: password || "",
+        role: role || "",
     };
 },
+
 validationSchema: Yup.object().shape({
     name: Yup.string().required("Name is Required."),
     last: Yup.string().required("Surname is Required."),
-    email: Yup.string().email().required("Email is Required."),
-    password: Yup.string().required("Password is Required."),
+    email: Yup.string()
+        .email("Email not valid")
+        .required("Email is required"),
+    password: Yup.string()
+    .min(8, "Password must be 8 characters or longer")
+    .required("Password is Required."),
     role: Yup.string().required("Role is Required."),
 }),
-handleSubmit(values, {setStatus}) {
+
+handleSubmit(values, { resetForm, setErrors, setStatus}) {
     console.log("submitting", values);
-    axios.post(
-        "https://reqres.in/api/users", values
-        )
+    if (values.email === "alreadytaken@atb.dev") {
+        setErrors({ email: "That email is already taken" });
+    } else {
+        axios
+        .post("", values)
         .then(res => {
-            console.log("Successful Submittion", res)
-            setStatus(res.data)
+            console.log(res);
+            resetForm();
         })
-        .catch(err => console.log(err.response));
+        .catch(err => {
+            console.log(err);
+        });
+    }
 }
 })(UserForm);
 
 export default FormikForm;
+
+//https://reqres.in/api/users
