@@ -108,7 +108,7 @@ const FormikLoginForm = withFormik({
         )
         .then(res => {
             console.log('success', res)
-            localStorage.setItem('token', res.token);
+            localStorage.setItem('token', res.data.token);
             localStorage.setItem("role", values.role)
             resetForm();
             props.history.push("/Dashboard")
