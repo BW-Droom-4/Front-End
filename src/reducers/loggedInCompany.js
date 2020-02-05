@@ -1,3 +1,8 @@
+import {
+    GET_LOGGED_IN_COMPANY_SUCCESS,
+    SIGN_OUT
+} from '../actions/actions';
+
 const initialState = {
     id: 0,
     companyName: '',
@@ -12,6 +17,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.payload) {
+        case GET_LOGGED_IN_COMPANY_SUCCESS:
+            return action.payload;
+        case SIGN_OUT:
+            return initialState;
         default:
             return state;
     }
