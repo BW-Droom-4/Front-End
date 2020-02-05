@@ -1,6 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUser, saveCompany } from '../actions/act';
+import styled from "styled-components/macro";
+
+export const ProfileSubmitButton = styled.button `
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #FF5A1E;
+    border: 5px outset #F05D5E;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #263D42;
+    &:hover {
+        background: #F05D5E;
+        border: 5px inset #FF5A1E;
+    }
+    margin-bottom: 10px;  
+`
+export const FormContainer = styled.div `
+    width: 50vw;
+    height: 75vh;
+    background-color: #2A9D8F;
+    background-image: linear-gradient(#2A9D8F, #63C7B2);
+    border-radius: 10px;
+    box-shadow: 25px 25px 0 0 #263D42;
+    font-weight: bold;
+    color: #263D42;
+    text-shadow: 1px 1px #2A9D8F; 
+    letter-spacing: 1px;
+    line-height: 1.5;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`
 
 const userRole = localStorage.getItem("role");
 
@@ -38,7 +73,7 @@ const Profile =() =>{
     };
 
     return(
-        <form onSubmit={handleSubmit}>
+        <FormContainer onSubmit={handleSubmit}>
             {userRole === "User" && (
                 <>
                     <label>
@@ -113,8 +148,8 @@ const Profile =() =>{
                 </>
             )}
             <hr />
-            <button type="submit">Save</button>
-        </form>
+            <ProfileSubmitButton type="submit">Save</ProfileSubmitButton>
+        </FormContainer>
     )
 }
 

@@ -2,10 +2,61 @@ import React, { useState, useEffect } from 'react';
 import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import * as Yup from 'yup';
 import axios from 'axios';
+import styled from "styled-components";
 import shortid from 'shortid';
 import jwt_decode from 'jwt-decode';
 
 // let database = ""
+export const LoginContainer = styled.div `
+    width: 30vw;
+    height: 75vh;
+    background-color: #F05D5E;
+    background-image: linear-gradient(#F05D5E, #FF5A1E);
+    border-radius: 10px;
+    box-shadow: 25px 25px 0 0 #263D42;
+    font-weight: bold;
+    color: #263D42;
+    text-shadow: 1px 1px #2A9D8F; 
+    letter-spacing: 1px;
+    line-height: 1.5;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: space-around;
+    flex-direction: column;
+    
+`
+export const LoginHeader = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const LoginButton = styled.button `
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #63C7B2;
+    border: 5px outset #2A9D8F;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #263D42;
+    &:hover {
+        background: #2A9D8F;
+        border: 5px inset #63C7B2;
+      }
+    margin-bottom: 10px;  
+`
+export const RegisterLink = styled.a `
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #263D42;
+    &:hover {
+        color: #63C7B2;
+      }
+    
+`
+
 
 const Login =({values, errors, touched, status}) =>{
 
@@ -15,8 +66,8 @@ const Login =({values, errors, touched, status}) =>{
         status && setUsersLogin( users => [...users, status]);
     }, [status]);
     return(
-        <div className="login-form">
-            <h1>User Login</h1>
+        <LoginContainer className="login-form">
+            <LoginHeader>User Login</LoginHeader>
             <Form>
                 <label htmlFor="email">
                     E-mail:
@@ -59,11 +110,15 @@ const Login =({values, errors, touched, status}) =>{
                  <br/>
                  <br/>
 
-                <button type="submit">
+                <LoginButton type="submit">
                     Submit
-                </button>
+                </LoginButton>
+                <br/>
+                
+                <RegisterLink href="/Register">Sign up for Droom</RegisterLink>
+                
             </Form>
-        </div>
+        </LoginContainer>
     );
 };
 
