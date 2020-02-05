@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const JobContainer = styled.div `
     width: 30vw;
@@ -23,6 +23,7 @@ export const Error = styled.p `
     font-weight: normal;
     line-height: 0.5;
 `
+
 
 const JobForm = ({ values, errors, touched, status }) => {
 
