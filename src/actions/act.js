@@ -13,7 +13,13 @@ import {
     GET_LOGGED_IN_USER_FAILURE,
     GET_LOGGED_IN_COMPANY,
     GET_LOGGED_IN_COMPANY_SUCCESS,
-    GET_LOGGED_IN_COMPANY_FAILURE
+    GET_LOGGED_IN_COMPANY_FAILURE,
+    SAVE_USER,
+    SAVE_USER_SUCCESS,
+    SAVE_USER_FAILURE,
+    SAVE_COMPANY,
+    SAVE_COMPANY_SUCCESS,
+    SAVE_COMPANY_FAILURE
 } from './actions';
 
 export const act = (type, payload) => ({ type, payload })
@@ -63,6 +69,61 @@ export const getUserListings = () => {
                 });
             });
     };
+};
+
+export const saveUser = user => {
+    return dispatch => {
+        dispatch({
+            type: SAVE_USER
+        });
+        const user = {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+        };
+
+        // save the USER
+        authios().put(server.base + server.ends.user.PUT(user.id), user)
+            .then(res => {
+
+                const profile = {
+                    id: user.profileId,
+                    occupation_title: user.occupation_title,
+                    about_user: user.about_user,
+                    years_of_experience: user.years_of_experience
+                };
+
+                if(user.profileId > -1) {
+
+                    // PUT the PROFILE
+                    
+                    authios.put(server.base + server.ends.user_profile.PUT(profile.profileId), profile)
+                        .then(res => {
+                            dispatch({
+                                type: SAVE_USER_SUCCESS,
+                                payload: user
+                            });
+                        })
+                        .catch(err => {
+                            console.warn(err);
+                            dispatch({
+                                type: SAVE_USER_FAILURE
+                            });
+                        });
+                }
+            })
+            .catch(err => {
+                console.warn(err);
+                dispatch({
+                    type: SAVE_USER_FAILURE
+                });
+            });
+    };
+};
+
+export const saveCompany = profile => {
+
 };
 
 export const getLoggedInUser = id => {

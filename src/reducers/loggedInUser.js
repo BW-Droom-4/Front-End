@@ -1,6 +1,7 @@
 import {
     GET_LOGGED_IN_USER_SUCCESS,
-    SIGN_OUT
+    SIGN_OUT,
+    SAVE_USER_SUCCESS
 } from '../actions/actions';
 
 const initialState = {
@@ -8,18 +9,20 @@ const initialState = {
     firstname: '',
     lastname: '',
     email: '',
-    role: '',
+    profileId: -1,
     created_at: '',
     updated_at: '',
-    images: [],
-    profiles: [],
-    experiences: [],
-    interests: []
+    occupation_title: '',
+    about_user: '',
+    years_of_experience: '',
+    imageId: -1,
+    image: ''
 };
 
 export default (state = initialState, action) => {
     switch(action.type) {
         case GET_LOGGED_IN_USER_SUCCESS:
+        case SAVE_USER_SUCCESS:
             return action.payload;
         case SIGN_OUT:
             return initialState;
