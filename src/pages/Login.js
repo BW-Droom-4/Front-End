@@ -6,21 +6,23 @@ import styled from "styled-components";
 
 // let database = ""
 export const LoginContainer = styled.div `
-    width: 35vw;
+    width: 30vw;
     height: 75vh;
-    // background-color: #F05D5E;
+    background-color: #F05D5E;
     background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
     box-shadow: 25px 25px 0 0 #263D42;
     font-weight: bold;
     color: #263D42;
+    text-shadow: 1px 1px #2A9D8F; 
+    letter-spacing: 1px;
     line-height: 1.5;
     font-size: 1.2rem;
     display: flex;
     justify-content: center;
     align-items: space-around;
     flex-direction: column;
-    text-shadow: 1px 1px #2A9D8F;
+    
 `
 export const LoginHeader = styled.h1 `
     font-weight: bolder;
@@ -41,6 +43,16 @@ export const LoginButton = styled.button `
         background: #2A9D8F;
         border: 5px inset #63C7B2;
       }
+    margin-bottom: 10px;  
+`
+export const RegisterLink = styled.a `
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #263D42;
+    &:hover {
+        color: #63C7B2;
+      }
+    
 `
 
 
@@ -99,6 +111,10 @@ const Login =({values, errors, touched, status}) =>{
                 <LoginButton type="submit">
                     Submit
                 </LoginButton>
+                <br/>
+                
+                <RegisterLink href="/Register">Sign up for Droom</RegisterLink>
+                
             </Form>
         </LoginContainer>
     );
