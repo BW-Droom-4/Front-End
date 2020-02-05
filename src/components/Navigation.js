@@ -15,6 +15,7 @@ const Navigation =() =>{
     };
     return(
         <nav>
+            <NavLink to="/dashboard">Dashboard</NavLink>
             <NavLink to="/profile">Profile</NavLink>
             <NavLink to="/matches">Matches</NavLink>
             <NavLink to="Messages">Messages</NavLink>
