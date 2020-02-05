@@ -3,6 +3,7 @@ import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import * as Yup from 'yup';
 import axios from 'axios';
 import shortid from 'shortid';
+import jwt_decode from 'jwt-decode';
 
 // let database = ""
 
@@ -66,6 +67,11 @@ const Login =({values, errors, touched, status}) =>{
     );
 };
 
+const setPayloadFromJWT = jwt => {
+    const payload = jwt_decode(jwt);
+    localStorage.setItem('jwt_payload', JSON.stringify(payload)); 
+};
+
 const FormikLoginForm = withFormik({
     mapPropsToValues({
         email,
@@ -108,6 +114,7 @@ const FormikLoginForm = withFormik({
         )
         .then(res => {
             console.log('success', res)
+            setPayloadFromJWT(res.data.token);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem("role", values.role)
             resetForm();
