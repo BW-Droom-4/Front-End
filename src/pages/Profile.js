@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUser, saveCompany } from '../actions/act';
 import styled from "styled-components/macro";
 
 export const ProfileSubmitButton = styled.button `
@@ -39,6 +40,7 @@ export const FormContainer = styled.div `
 const userRole = localStorage.getItem("role");
 
 const Profile =() =>{
+    const dispatch = useDispatch();
     const user = useSelector(state => state.loggedInUser);
     const company = useSelector(state => state.loggedInCompany);
 
@@ -55,12 +57,23 @@ const Profile =() =>{
 
     const handleChange = e => {
         setProfileForm({
+            ...profileForm,
             [e.target.name]: e.target.value
         });
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        if(userRole === "User") {
+            dispatch(saveUser(profileForm));
+        }
+        else if(userRole === "Company") {
+            dispatch(saveCompany(profileForm));
+        }
+    };
+
     return(
-        <FormContainer>
+        <FormContainer onSubmit={handleSubmit}>
             {userRole === "User" && (
                 <>
                     <label>

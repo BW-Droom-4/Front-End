@@ -73,7 +73,7 @@ const JobForm = ({ values, errors, touched, status }) => {
     return (
         <DivSizing>
             <JobContainer>
-            <JobHeader>New Job Listing</JobHeader>
+            <JobHeader>Add New Job</JobHeader>
                 <Form>
                     <label htmlFor="job_title">Job Title:</label>
                     <br/>
