@@ -73,9 +73,29 @@ export const getLoggedInUser = id => {
 
         authios().get(server.base + server.ends.user_profile.GET(id))
             .then(res => {
-
+                const { data } = res;
                 // comes back in indexed object, need to get props off first property
-                const user = { ...res.data["0"], profiles: res.data.profiles, images: res.data.images, interests: res.data.interests, experiences: res.data.experiences };
+                const user = { ...data["0"] };
+                if(data.profiles.length) {
+                    user.profileId = data.profiles[0].id;
+                    user.occupation_title = data.profiles[0].occupation_title;
+                    user.about_user = data.profiles[0].about_user;
+                    user.years_of_experience = data.profiles[0].years_of_experience;
+                }
+                else {
+                    user.profileId = -1;
+                    user.occupation_title = '';
+                    user.about_user = '';
+                    user.years_of_experience = '';
+                }
+                if(data.images.length) {
+                    user.imageId = data.images[0].id;
+                    user.image = data.images[0].user_image
+                }
+                else {
+                    user.imageId = -1;
+                    user.image = '';
+                }
                 dispatch({
                     type: GET_LOGGED_IN_USER_SUCCESS,
                     payload: user
