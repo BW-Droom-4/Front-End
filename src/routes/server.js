@@ -12,9 +12,15 @@ export default {
       },
       user : {
         GET : (id) => `/users/${id}`,
+        PUT : (id) => `/users/${id}`
       },
-      user_page : {
+      user_profile : {
         GET : (id) => `/users/${id}/profile`,
+        POST : (id) => `/users/${id}/profile`,
+        PUT: (user_id, interest_id) => `/users/${user_id}/profile/${interest_id}`
+      },
+      user_images : {
+        POST : id => `/users/${id}/upload`
       },
       company_signup : {
         POST : () => `/auth/companies/register`
@@ -25,7 +31,7 @@ export default {
       companies : {
         GET : () => `/companies`, ///get all companies
       },
-      company_page : {
+      company_profile : {
         GET : (id) => `/companies/${id}/profile` /// get profile page by company id
       },
       company : {
@@ -33,4 +39,8 @@ export default {
       },
     },
   }
+
+
+  ///TODO ADD THE REST OF THE ENDPOINTS
+  
   

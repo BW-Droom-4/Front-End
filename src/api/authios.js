@@ -1,10 +1,15 @@
 import axios from 'axios';
 
-export const apiUrl = 'http://url-to-api.me';
+export const apiUrl = 'https://droom-4.herokuapp.com/api';
 
-export const authios = () => {
+ const authios = () => {
     return axios.create({
         baseURL: apiUrl,
-        headers: { authorization: localStorage.getItem("token") }
+        headers: { 
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem("token")
+        }
     });
 };
+
+export default authios
