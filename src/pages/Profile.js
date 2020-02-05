@@ -18,6 +18,12 @@ const Profile =() =>{
         }
     }, [user, company]);
 
+    const handleChange = e => {
+        setProfileForm({
+            [e.target.name]: e.target.value
+        });
+    };
+
     return(
         <form>
             {userRole === "User" && (
@@ -28,6 +34,7 @@ const Profile =() =>{
                             type="text"
                             name="firstname"
                             value={profileForm.firstname}
+                            onChange={handleChange}
                         />
                     </label>
                     <label>
@@ -36,6 +43,7 @@ const Profile =() =>{
                             type="text"
                             name="lastname"
                             value={profileForm.lastname}
+                            onChange={handleChange}
                         />
                     </label>
                 </>
@@ -46,7 +54,8 @@ const Profile =() =>{
                     type="text"
                     disabled
                     name="email"
-                    value={profileForm.email}    
+                    value={profileForm.email}  
+                    onChange={handleChange}  
                 />
             </label>
             {userRole === "Company" && (
@@ -56,6 +65,7 @@ const Profile =() =>{
                         type="text"
                         name="companyName"
                         value={profileForm.companyName}
+                        onChange={handleChange}
                     />
                 </label>
             )}
@@ -67,6 +77,7 @@ const Profile =() =>{
                             type="text"
                             name="occupation_title"
                             value={profileForm.occupation_title}
+                            onChange={handleChange}
                         />
                     </label>
                     <label>
@@ -74,6 +85,7 @@ const Profile =() =>{
                         <textarea
                             name="about_user"
                             value={profileForm.about_user}
+                            onChange={handleChange}
                         ></textarea>
                     </label>
                     <label>
@@ -82,6 +94,7 @@ const Profile =() =>{
                             type="text"
                             name="years_of_experience"
                             value={profileForm.years_of_experience}
+                            onChange={handleChange}
                         />
                     </label>
                 </>
