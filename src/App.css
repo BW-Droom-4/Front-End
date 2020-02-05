@@ -47,8 +47,8 @@
 }
 
 h1 {
-  font-family: 'Alatsi', sans-serif;
-  /* font-family: 'Damion', cursive; */
+  /* font-family: 'Alatsi', sans-serif; */
+  font-family: 'Damion', cursive;
   /* color: #F38D68; */
   color: #263d42;
   text-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
