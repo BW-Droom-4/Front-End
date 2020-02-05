@@ -71,44 +71,66 @@ export const getUserListings = () => {
     };
 };
 
-export const saveUser = user => {
+export const saveUser = userWithProfile => {
     return dispatch => {
         dispatch({
             type: SAVE_USER
         });
         const user = {
-            id: user.id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
+            id: userWithProfile.id,
+            firstname: userWithProfile.firstname,
+            lastname: userWithProfile.lastname,
+            email: userWithProfile.email,
+            role: userWithProfile.role,
+            created_at: userWithProfile.created_at,
+            updated_at: userWithProfile.updated_at
         };
 
         // save the USER
-        authios().put(server.base + server.ends.user.PUT(user.id), user)
+        authios().put(server.base + server.ends.user.PUT(userWithProfile.id), user)
             .then(res => {
 
                 const profile = {
-                    id: user.profileId,
-                    occupation_title: user.occupation_title,
-                    about_user: user.about_user,
-                    years_of_experience: user.years_of_experience
+                    user_id: user.id,
+                    occupation_title: userWithProfile.occupation_title,
+                    about_user: userWithProfile.about_user,
+                    years_of_experience: userWithProfile.years_of_experience
                 };
 
-                if(user.profileId > -1) {
+                if(userWithProfile.profileId > -1) {
 
                     // PUT the PROFILE
                     
-                    authios.put(server.base + server.ends.user_profile.PUT(profile.profileId), profile)
+                    authios().put(server.base + server.ends.user_profile.PUT(user.id, userWithProfile.profileId), profile)
                         .then(res => {
                             dispatch({
                                 type: SAVE_USER_SUCCESS,
-                                payload: user
+                                payload: userWithProfile
                             });
                         })
                         .catch(err => {
                             console.warn(err);
                             dispatch({
-                                type: SAVE_USER_FAILURE
+                                type: SAVE_USER_FAILURE,
+                                payload: err.message
+                            });
+                        });
+                }
+                else {
+                    // POST the PROFILE
+
+                    authios().post(server.base + server.ends.user_profile.POST(user.id), profile)
+                        .then(res => {
+                            dispatch({
+                                type: SAVE_USER_SUCCESS,
+                                payload: userWithProfile
+                            });
+                        })
+                        .catch(err => {
+                            console.warn(err);
+                            dispatch({
+                                type: SAVE_USER_FAILURE,
+                                payload: err.message
                             });
                         });
                 }
@@ -116,13 +138,14 @@ export const saveUser = user => {
             .catch(err => {
                 console.warn(err);
                 dispatch({
-                    type: SAVE_USER_FAILURE
+                    type: SAVE_USER_FAILURE,
+                    payload: err.message
                 });
             });
     };
 };
 
-export const saveCompany = profile => {
+export const saveCompany = company => {
 
 };
 
@@ -136,7 +159,12 @@ export const getLoggedInUser = id => {
             .then(res => {
                 const { data } = res;
                 // comes back in indexed object, need to get props off first property
-                const user = { ...data["0"] };
+                const user = { 
+                    ...data["0"],
+                    role: '',
+                    created_at: '',
+                    updated_at: ''
+                };
                 if(data.profiles.length) {
                     user.profileId = data.profiles[0].id;
                     user.occupation_title = data.profiles[0].occupation_title;

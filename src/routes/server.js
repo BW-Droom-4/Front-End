@@ -12,12 +12,12 @@ export default {
       },
       user : {
         GET : (id) => `/users/${id}`,
-        PUT : id => `/users/${id}`
+        PUT : (id) => `/users/${id}`
       },
       user_profile : {
         GET : (id) => `/users/${id}/profile`,
-        POST : () => `/users/profile`,
-        PUT: id => `/users/${id}/profile`
+        POST : (id) => `/users/${id}/profile`,
+        PUT: (user_id, interest_id) => `/users/${user_id}/profile/${interest_id}`
       },
       user_images : {
         POST : id => `/users/${id}/upload`
