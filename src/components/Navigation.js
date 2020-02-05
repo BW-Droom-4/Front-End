@@ -1,13 +1,17 @@
 import React from 'react'
 import { NavLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOutUser } from '../actions/act';
 
 const Navigation =() =>{
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const signOut = () => {
         localStorage.clear();
         history.push('/login');
+        dispatch(signOutUser());
     };
     return(
         <nav>

@@ -1,6 +1,7 @@
 import authios from '../api/authios';
 import { server } from '../routes';
 import {
+    SIGN_OUT,
     GET_USER_LISTINGS,
     GET_USER_LISTINGS_SUCCESS,
     GET_USER_LISTINGS_FAILURE,
@@ -72,9 +73,12 @@ export const getLoggedInUser = id => {
 
         authios().get(server.base + server.ends.user.GET(id))
             .then(res => {
+
+                // comes back in indexed object, need to get props off first property
+                const user = res.data[Object.keys(res.data)[0]];
                 dispatch({
                     type: GET_LOGGED_IN_USER_SUCCESS,
-                    payload: res.data
+                    payload: user
                 });  
             })
             .catch(err => dispatch({
@@ -102,6 +106,12 @@ export const getLoggedInCompany = id => {
                 payload: err.message
             }));
     };
-}
+};
+
+export const logOutUser = () => {
+    return {
+        type: SIGN_OUT
+    };
+};
 
 export default act

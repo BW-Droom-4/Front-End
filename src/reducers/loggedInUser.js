@@ -1,5 +1,6 @@
 import {
-    GET_LOGGED_IN_USER_SUCCESS
+    GET_LOGGED_IN_USER_SUCCESS,
+    SIGN_OUT
 } from '../actions/actions';
 
 const initialState = {
@@ -20,6 +21,8 @@ export default (state = initialState, action) => {
     switch(action.type) {
         case GET_LOGGED_IN_USER_SUCCESS:
             return action.payload;
+        case SIGN_OUT:
+            return initialState;
         default:
             return state;
     }
