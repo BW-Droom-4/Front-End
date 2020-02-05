@@ -23,6 +23,10 @@ export const Error = styled.p `
     font-weight: normal;
     line-height: 0.5;
 `
+export const LoginLink = styled.div`
+    font-size: 10px;
+    line-height: 0.5;
+`;
 
 const UserForm = ({ values, errors, touched, status }) => {
 
@@ -84,9 +88,13 @@ const UserForm = ({ values, errors, touched, status }) => {
                     <Error className="errors">{errors.role}</Error>
                     )}
                     <button type="submit">Submit</button>
+                    <br/>
+                    <br/>
+                    <LoginLink>
+                        <a href="/Login">Already Have An Account?</a>
+                    </LoginLink>
                 </Form>
             </RegisterContainer>
-
         </div>
     );
 };
