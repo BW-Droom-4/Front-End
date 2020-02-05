@@ -4,7 +4,25 @@ import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import styled from 'styled-components';
-import shortId from 'shortid';
+
+export const RegisterContainer = styled.div `
+    width: 30vw;
+    height: 100%;
+    background-color: #F05D5E;
+    border-radius: 10px;
+    box-shadow: 25px 25px 0 0 #263D42;
+    padding: 20px;
+    font-weight: bold;
+    color: #263D42;
+    line-height: 1.5;
+    font-size: 1.2rem;
+`
+export const Error = styled.p `
+    color: yellow;
+    font-size: .7rem;
+    font-weight: normal;
+    line-height: 0.5;
+`
 
 const UserForm = ({ values, errors, touched, status }) => {
 
@@ -19,60 +37,55 @@ const UserForm = ({ values, errors, touched, status }) => {
 
     return (
         <div>
-            <h1>Create Account</h1>
-            <div>
+            {/* <h1>Create Account</h1> */}
+            <RegisterContainer>
                 <Form>
                     <label htmlFor="firstname">First Name:</label>
                     <br/>
-                    <Field id="firstname" type="text" name="firstname" />
+                    <Field id="firstname" type="text" name="firstname"/>
+                    <br/>
                     {touched.firstname && errors.firstname &&
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.firstname}</p>}
-                    <br/>
-                    <br/>
+                    <Error>{errors.firstname}</Error>}
                     <label htmlFor="lastname">Last Name:</label>
                     <br/>
                     <Field id="lastname" type="text" name="lastname" />
+                    <br/>
                     {touched.lastname && errors.lastname &&
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.lastname}</p>}
-                    <br/>
-                    <br/>
+                    <Error className="errors">{errors.lastname}</Error>}                   
                     <label html htmlFor="email">
                     Email:
                     </label>
                     <br/>
                     <Field id="email" type="text" name="email" />
+                    <br/>
                     {touched.email && errors.email && (
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.email}</p>
+                    <Error className="errors">{errors.email}</Error>
                     )}
-                    <br/>
-                    <br/>
                     <label html htmlFor="password">
                     Password:
                     </label>
                     <br/>
                     <Field id="password" type="password" name="password" />
+                    <br/>
                     {touched.password && errors.password && (
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.password}</p>
+                    <Error className="errors">{errors.password}</Error>
                     )}
-                    <br/>
-                    <br/>
                     <label htmlFor="role">
                     Role:
                     </label>
                     <br/>
-                    <Field  as="select" id="role" name="role" >
-                        <option >Choose an Option</option>
+                    <Field as="select" id="role" name="role">
+                        <option disabled>Choose an Option</option>
                         <option value="Company" >Looking to Post Jobs</option>
                         <option value="User" >Looking For Jobs</option>
                     </Field>
+                    <br/>
                     {touched.role && errors.role && (
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.role}</p>
+                    <Error className="errors">{errors.role}</Error>
                     )}
-                    <br/>
-                    <br/>
                     <button type="submit">Submit</button>
                 </Form>
-            </div>
+            </RegisterContainer>
 
         </div>
     );
@@ -111,8 +124,8 @@ handleSubmit(values, { props, resetForm, setStatus}) {
           }}) 
         .then(res => {
             console.log('success', res)
-            localStorage.setItem('token', res.token);
-            localStorage.setItem("role", values.role)
+            // localStorage.setItem('token', res.token);
+            // localStorage.setItem("role", values.role)
             resetForm();
             props.history.push('/login');
         })
