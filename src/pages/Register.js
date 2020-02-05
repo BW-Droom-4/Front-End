@@ -9,24 +9,58 @@ export const RegisterContainer = styled.div `
     width: 30vw;
     height: 100%;
     background-color: #F05D5E;
+    background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
     box-shadow: 25px 25px 0 0 #263D42;
-    padding: 20px;
     font-weight: bold;
     color: #263D42;
+    text-shadow: 1px 1px #2A9D8F; 
+    letter-spacing: 1px;
     line-height: 1.5;
     font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: space-around;
+    flex-direction: column;
+    padding-bottom: 10px;
+    
 `
+export const RegisterHeader = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const RegisterButton = styled.button `
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #63C7B2;
+    border: 5px outset #2A9D8F;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #263D42;
+    &:hover {
+        background: #2A9D8F;
+        border: 5px inset #63C7B2;
+      }
+    margin: 10px;  
+`
+export const LoginLink = styled.a `
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #263D42;
+    &:hover {
+        color: #63C7B2;
+    };
+`
+
 export const Error = styled.p `
     color: yellow;
     font-size: .7rem;
     font-weight: normal;
     line-height: 0.5;
 `
-export const LoginLink = styled.div`
-    font-size: 10px;
-    line-height: 0.5;
-`;
 
 const UserForm = ({ values, errors, touched, status }) => {
 
@@ -41,8 +75,8 @@ const UserForm = ({ values, errors, touched, status }) => {
 
     return (
         <div>
-            {/* <h1>Create Account</h1> */}
             <RegisterContainer>
+            <RegisterHeader>Create Account</RegisterHeader>
                 <Form>
                     <label htmlFor="firstname">First Name:</label>
                     <br/>
@@ -87,8 +121,7 @@ const UserForm = ({ values, errors, touched, status }) => {
                     {touched.role && errors.role && (
                     <Error className="errors">{errors.role}</Error>
                     )}
-                    <button type="submit">Submit</button>
-                    <br/>
+                    <RegisterButton type="submit">Submit</RegisterButton>
                     <br/>
                     <LoginLink>
                         <a href="/Login">Already Have An Account?</a>
@@ -115,7 +148,7 @@ validationSchema: Yup.object().shape({
     lastname: Yup.string().required("Surname is Required."),
     email: Yup.string()
         .email("Email not valid")
-        .required("Email is required"),
+        .required("Email is Required"),
     password: Yup.string()
     .min(8, "Password must be 8 characters or longer")
     .max(16, "Password must have less than 16 characters")

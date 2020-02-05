@@ -6,15 +6,44 @@ import styled from 'styled-components';
 
 export const JobContainer = styled.div `
     width: 30vw;
-    height: 45vh;
+    height: 100%;
     background-color: #F05D5E;
+    background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
     box-shadow: 25px 25px 0 0 #263D42;
-    padding: 20px;
     font-weight: bold;
     color: #263D42;
+    text-shadow: 1px 1px #2A9D8F; 
+    letter-spacing: 1px;
     line-height: 1.5;
     font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: space-around;
+    flex-direction: column;
+    padding-bottom: 10px;
+    
+`
+export const Header = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const AddButton = styled.button `
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #63C7B2;
+    border: 5px outset #2A9D8F;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #263D42;
+    &:hover {
+        background: #2A9D8F;
+        border: 5px inset #63C7B2;
+      }
+    margin: 10px;  
 `
 
 export const Error = styled.p `
@@ -38,6 +67,7 @@ const JobForm = ({ values, errors, touched, status }) => {
     return (
         <div>
             <JobContainer>
+                <Header>Add New Job</Header>
                 <Form>
                     <label htmlFor="job_title">Job Title:</label>
                     <br/>
@@ -70,7 +100,7 @@ const JobForm = ({ values, errors, touched, status }) => {
                     <Error className="errors">{errors.matching_skill}</Error>
                     )}
                     
-                    <button type="submit">Submit</button>
+                    <AddButton type="submit">Submit</AddButton>
                 </Form>
             </JobContainer>
 
