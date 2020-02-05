@@ -13,7 +13,7 @@ export default {
       user : {
         GET : (id) => `/users/${id}`,
       },
-      user_page : {
+      user_profile : {
         GET : (id) => `/users/${id}/profile`,
       },
       company_signup : {
@@ -25,7 +25,7 @@ export default {
       companies : {
         GET : () => `/companies`, ///get all companies
       },
-      company_page : {
+      company_profile : {
         GET : (id) => `/companies/${id}/profile` /// get profile page by company id
       },
       company : {

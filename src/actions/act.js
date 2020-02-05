@@ -71,11 +71,11 @@ export const getLoggedInUser = id => {
             type: GET_LOGGED_IN_USER
         })
 
-        authios().get(server.base + server.ends.user.GET(id))
+        authios().get(server.base + server.ends.user_profile.GET(id))
             .then(res => {
 
                 // comes back in indexed object, need to get props off first property
-                const user = res.data[Object.keys(res.data)[0]];
+                const user = { ...res.data["0"], profiles: res.data.profiles, images: res.data.images, interests: res.data.interests, experiences: res.data.experiences };
                 dispatch({
                     type: GET_LOGGED_IN_USER_SUCCESS,
                     payload: user
