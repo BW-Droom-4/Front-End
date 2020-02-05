@@ -16,7 +16,7 @@ const Profile =() =>{
         else if (userRole === "Company") {
             setProfileForm(company);
         }
-    }, []);
+    }, [user, company]);
 
     return(
         <form>
