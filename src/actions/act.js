@@ -108,7 +108,7 @@ export const getLoggedInCompany = id => {
     };
 };
 
-export const logOutUser = () => {
+export const signOutUser = () => {
     return {
         type: SIGN_OUT
     };
