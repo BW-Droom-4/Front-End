@@ -67,7 +67,11 @@ const Login =({values, errors, touched, status}) =>{
     );
 };
 
-const setPayloadFromJWT = jwt => {
+const setJTWData = jwt => {
+    // set token
+    localStorage.setItem('token', jwt);
+
+    // set payload from token
     const payload = jwt_decode(jwt);
     localStorage.setItem('jwt_payload', JSON.stringify(payload)); 
 };
@@ -114,8 +118,7 @@ const FormikLoginForm = withFormik({
         )
         .then(res => {
             console.log('success', res)
-            setPayloadFromJWT(res.data.token);
-            localStorage.setItem('token', res.data.token);
+            setJTWData(res.data.token);
             localStorage.setItem("role", values.role)
             resetForm();
             props.history.push("/Dashboard")

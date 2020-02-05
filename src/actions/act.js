@@ -7,6 +7,12 @@ import {
     GET_JOB_LISTINGS,
     GET_JOB_LISTINGS_SUCCESS,
     GET_JOB_LISTINGS_FAILURE,
+    GET_LOGGED_IN_USER,
+    GET_LOGGED_IN_USER_SUCCESS,
+    GET_LOGGED_IN_USER_FAILURE,
+    GET_LOGGED_IN_COMPANY,
+    GET_LOGGED_IN_COMPANY_SUCCESS,
+    GET_LOGGED_IN_COMPANY_FAILURE
 } from './actions';
 
 export const act = (type, payload) => ({ type, payload })
@@ -57,5 +63,45 @@ export const getUserListings = () => {
             });
     };
 };
+
+export const getLoggedInUser = id => {
+    return dispatch => {
+        dispatch({
+            type: GET_LOGGED_IN_USER
+        })
+
+        authios().get(server.base + server.ends.user.GET(id))
+            .then(res => {
+                dispatch({
+                    type: GET_LOGGED_IN_USER_SUCCESS,
+                    payload: res.data
+                });  
+            })
+            .catch(err => dispatch({
+                type: GET_LOGGED_IN_USER_FAILURE,
+                payload: err.message
+            }));
+    };
+};
+
+export const getLoggedInCompany = id => {
+    return dispatch => {
+        dispatch({
+            type: GET_LOGGED_IN_COMPANY
+        })
+
+        authios().get(server.base + server.ends.company.GET(id))
+            .then(res => {
+                dispatch({
+                    type: GET_LOGGED_IN_COMPANY_SUCCESS,
+                    payload: res.data
+                });  
+            })
+            .catch(err => dispatch({
+                type: GET_LOGGED_IN_COMPANY_FAILURE,
+                payload: err.message
+            }));
+    };
+}
 
 export default act

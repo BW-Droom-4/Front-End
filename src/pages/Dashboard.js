@@ -1,20 +1,22 @@
-
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import TinderCard from 'react-tinder-card';
-import authios from '../api/authios'
-import { getJobListings, getUserListings } from '../actions/act';
-import {companyTestData} from './TestData';
-import styled from 'styled-components'
-import Messages from './Messages'
-
-
+import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany } from '../actions/act';
+import Messages from './Messages';
 
 const Dashboard = props => {
 
-
-
+  useEffect(() => {
+    // set the user in the store
+    const userRole = localStorage.getItem('role');
+    const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
+    if(userRole === "User") {
+      props.getLoggedInUser(jwtPayload.userId);
+    }
+    else if(userRole === "Company") {
+      props.getLoggedInCompany(jwtPayload.companyId);
+    }
+  }, []);
 
   const jobListings = props.jobListings.map((elm) => elm)
 
@@ -169,4 +171,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getJobListings, getUserListings })(Dashboard);
+export default connect(mapStateToProps, { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany })(Dashboard);

@@ -1,3 +1,7 @@
+import {
+    GET_LOGGED_IN_USER_SUCCESS
+} from '../actions/actions';
+
 const initialState = {
     id: 0,
     firstname: '',
@@ -14,6 +18,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
+        case GET_LOGGED_IN_USER_SUCCESS:
+            return action.payload;
         default:
             return state;
     }
