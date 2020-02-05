@@ -7,6 +7,7 @@ import authios from '../api/authios'
 import { getJobListings, getUserListings } from '../actions/act';
 import {companyTestData} from './TestData';
 import styled from 'styled-components'
+import Messages from './Messages'
 
 
 
@@ -137,6 +138,9 @@ const Dashboard = props => {
   console.log(testData, 'testData outside return')
   return (
     <div>
+
+    <Messages />
+
       <div className='cardContainer'>
         {testData.map(item =>
           <TinderCard
