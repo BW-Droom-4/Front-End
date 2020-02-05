@@ -12,9 +12,15 @@ export default {
       },
       user : {
         GET : (id) => `/users/${id}`,
+        PUT : id => `/users/${id}`
       },
       user_profile : {
         GET : (id) => `/users/${id}/profile`,
+        POST : () => `/users/profile`,
+        PUT: id => `/users/${id}/profile`
+      },
+      user_images : {
+        POST : id => `/users/${id}/upload`
       },
       company_signup : {
         POST : () => `/auth/companies/register`
