@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import * as Yup from 'yup';
 import axios from 'axios';
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import shortid from 'shortid';
 import jwt_decode from 'jwt-decode';
 
@@ -56,7 +56,12 @@ export const RegisterLink = styled.a `
       }
     
 `
-
+export const Error = styled.p `
+    color: yellow;
+    font-size: .7rem;
+    font-weight: normal;
+    line-height: 0.5;
+`
 
 const Login =({values, errors, touched, status}) =>{
 
@@ -76,9 +81,9 @@ const Login =({values, errors, touched, status}) =>{
                 <Field id="email" type="text" name="email"/>
 
                 {touched.email && errors.email && (
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>
+                    <Error className="errors" >
                         {errors.email}
-                    </p>
+                    </Error>
                 )}
                 <br/>
 
@@ -89,9 +94,9 @@ const Login =({values, errors, touched, status}) =>{
                 <Field id="password" type="password" name="password"/>
 
                 {touched.password && errors.password && (
-                    <p className="errors" style={{color: "red", fontSize:"10px"}}>
+                    <Error className="errors" >
                         {errors.password}
-                    </p>
+                    </Error>
                 )}
                 <br/>
 
@@ -105,7 +110,7 @@ const Login =({values, errors, touched, status}) =>{
                     <option value="User" >Looking For Jobs</option>
                 </Field>
                 {touched.role && errors.role && (
-                <p className="errors" style={{color: "red", fontSize:"10px"}}>{errors.role}</p>
+                <Error className="errors" >{errors.role}</Error>
                 )}
                  <br/>
                  <br/>

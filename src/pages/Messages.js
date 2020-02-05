@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro';
 
 export const MessageContainer = styled.div `
     width: 50vw;

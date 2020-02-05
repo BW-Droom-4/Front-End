@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const RegisterContainer = styled.div `
     width: 30vw;
