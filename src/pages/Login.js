@@ -6,9 +6,10 @@ import styled from "styled-components";
 
 // let database = ""
 export const LoginContainer = styled.div `
-    width: 30vw;
-    height: 70vh;
-    background-color: #F05D5E;
+    width: 35vw;
+    height: 75vh;
+    // background-color: #F05D5E;
+    background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
     box-shadow: 25px 25px 0 0 #263D42;
     font-weight: bold;
@@ -16,12 +17,15 @@ export const LoginContainer = styled.div `
     line-height: 1.5;
     font-size: 1.2rem;
     display: flex;
-    align-items: space-evenly;
+    justify-content: center;
+    align-items: space-around;
     flex-direction: column;
+    text-shadow: 1px 1px #2A9D8F;
 `
 export const LoginHeader = styled.h1 `
     font-weight: bolder;
     color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
 `
 export const LoginButton = styled.button `
     width: 100px;
