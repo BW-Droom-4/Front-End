@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import { Switch, Route } from 'react-router-dom';
@@ -12,8 +12,24 @@ import Messages from './pages/Messages';
 import Matches from './pages/Matches';
 import JobForm from './pages/JobForm';
 import Navigation from './components/Navigation';
+import { getLoggedInUser, getLoggedInCompany } from './actions/act';
+import { useDispatch } from 'react-redux';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // set the user in the store
+    const userRole = localStorage.getItem('role');
+    const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
+    if(userRole === "User") {
+      dispatch(getLoggedInUser(jwtPayload.userId));
+    }
+    else if(userRole === "Company") {
+      dispatch(getLoggedInCompany(jwtPayload.companyId));
+    }
+  }, []);
 
   return (
     <div className="App">

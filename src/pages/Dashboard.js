@@ -6,17 +6,7 @@ import Messages from './Messages';
 
 const Dashboard = props => {
 
-  useEffect(() => {
-    // set the user in the store
-    const userRole = localStorage.getItem('role');
-    const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
-    if(userRole === "User") {
-      props.getLoggedInUser(jwtPayload.userId);
-    }
-    else if(userRole === "Company") {
-      props.getLoggedInCompany(jwtPayload.companyId);
-    }
-  }, []);
+
 
   const jobListings = props.jobListings.map((elm) => elm)
 
