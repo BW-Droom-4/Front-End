@@ -37,6 +37,10 @@ export default {
       company : {
         GET : (id) => `/companies/${id}`, ///get company by id
       },
+      company_match : {
+        GET : (id) => `/companies/${id}/match`,
+        POST : (id) => `/companies/${id}/match`
+      }
     },
   }
 

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSelector } from "react";
 import { connect } from 'react-redux';
 import TinderCard from 'react-tinder-card';
-import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany } from '../actions/act';
+import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany,  } from '../actions/act';
 import Messages from './Messages';
 import styled from "styled-components/macro";
+import authios from '../api/authios';
+import server from '../routes/server';
 
 
 export const DivSizing = styled.div `
@@ -15,22 +17,70 @@ export const DivSizing = styled.div `
   flex-direction: column;
 `
 
+
+
 const Dashboard = props => {
+
+  const userTest = [{
+    id: 50,
+    firstname: "Patrick",
+    lastname: "Roach",
+    email: "p@p.com",
+    role: "webdev",
+    created_at: "...",
+    updated_at: "...",
+    userprofile: {
+      user_id: 50,
+      ocupation_title: 'homie',
+      about_user: 'yes',
+      years_of_experiance: 2
+    }
+  },
+  {
+    id: 51,
+    firstname: "Andrew",
+    lastname: "Roach",
+    email: "p@p.com",
+    role: "Accountant",
+    created_at: "...",
+    updated_at: "...",
+    userprofile: {
+      user_id: 50,
+      ocupation_title: 'homie',
+      about_user: 'yes',
+      years_of_experiance: 2
+    }
+  }]
+  
+
+
+  const loggedInUserId = props.loggedInUser.id;
+  const loggedInCompanyId = props.loggedInCompany.id;
+
+  const loggedInRole = localStorage.getItem('role'); // "User" or "Company"
+  const jobListings = props.jobListings.map((elm) => elm)
+  //const userListings = props.userListings.map((elm) => elm)
+
+  const userRole = localStorage.getItem('role');
+
 
   useEffect(() => {
     // set the user in the store
-    const userRole = localStorage.getItem('role');
-    const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
+    // console.log('hit useEffect');
+    
     if(userRole === "User") {
-      props.getLoggedInUser(jwtPayload.userId);
+
+      console.log('hit User');
     }
     else if(userRole === "Company") {
-      props.getLoggedInCompany(jwtPayload.companyId);
+      setTestData([{}])
+      console.log('hit Company');
     }
-  }, []);
+    
+  }, [loggedInRole]);
 
-  const jobListings = props.jobListings.map((elm) => elm)
 
+  const [lastDirection, setLastDirection] = useState()
   const [testData, setTestData] = useState([{
     "id": 100,
     "companyName": "Test Company",
@@ -68,34 +118,64 @@ const Dashboard = props => {
   }
   const randomElement = (data) => { return (data[getRandomInt(data.length)]) }
 
-  const pushNewData = () => {
-    // if(userdata matches a company){
-    //   filter that matched company out
-    // }
-    let newData = testData.map((elm)=>{return elm})
-    let randoData = jobListings.map((elm)=>{return elm})
-    
-    let i =0;
-    do{
-      let random = randomElement(randoData);
-      if (newData[0] !== random) {
-        if(newData[1] !== random){
-          if(newData[2] !== random){
-            if(newData[3] !== random){
-              newData.push(random)
+  const pushNewData = (role) => {
+    if(role === "Company"){
+      console.log('this is a company sir')
+
+      let newData = testData.map((elm)=>{return elm})
+      let randoCompanyData = userTest.map((elm)=>{return elm})
+
+      let i = 0;
+      do{
+        let random = randomElement(randoCompanyData);
+        if (newData[0] !== random) {
+          if(newData[1] !== random){
+            if(newData[2] !== random){
+              if(newData[3] !== random){
+                newData.push(random)
+              }
             }
           }
         }
-      }
-        i++;
-    } while (i < 3) 
-    setTestData(newData)
+          i++;
+      } while (i < 3)
+      setTestData(newData)
+
+    } else if (role === "User"){
+      let newData = testData.map((elm)=>{return elm})
+      let randoData = jobListings.map((elm)=>{return elm})
+      
+      let i =0;
+      do{
+        let random = randomElement(randoData);
+        if (newData[0] !== random) {
+          if(newData[1] !== random){
+            if(newData[2] !== random){
+              if(newData[3] !== random){
+                newData.push(random)
+              }
+            }
+          }
+        }
+          i++;
+      } while (i < 3) 
+      setTestData(newData)
+    } else alert('AHHHHHHHHHHH')
+
   };
+
+
+  const setMatchdata = (id) => {
+    authios().get(server.base + server.ends.company_match.GET(id)).then(
+      res => console.log(res)).catch(
+        err => console.log(err)
+      )
+  }
 
 ///Controls how many cards to go through before updating with new ones VVV
   useEffect(() => {
     if (testData.length <= 1) {
-      pushNewData()
+      pushNewData(loggedInRole)
     }
   }, [testData])
 
@@ -103,11 +183,25 @@ const Dashboard = props => {
 
   useEffect(()=>{
     console.log('hit')
-    props.getJobListings();
+    if(userRole === "User") {
+      props.getJobListings();
+    }
+    else {
+      props.getUserListings();
+    }
 
   }, [])
 
-  const [lastDirection, setLastDirection] = useState()
+  // useEffect(()=>{
+  //   if(loggedInRole === "User"){
+  //     console.log('we dem boys')
+  //   }
+  // }, [loggedInRole])
+
+
+
+
+
 
   const toggleGreen = () => {
     return console.log('GREEN')
@@ -119,18 +213,19 @@ const Dashboard = props => {
   //tracks the direction swiped and filters out the local state of the array
 
   const swiped = (direction, nameToDelete) => {
-    console.log('removing: ' + nameToDelete.companyName)
-    console.log('direction', direction);
 
     if(direction == 'right' ){
       let filtered = testData.filter((elm) =>{
         return elm !== nameToDelete
         })
 
+      
+
+      setMatchdata(nameToDelete.id)
+      props.matchCompany(nameToDelete, loggedInUserId, loggedInCompanyId)
       toggleGreen()
       setLastDirection(direction)
         setTestData(filtered)
-        console.log(filtered, 'filtered array')
     } else if(direction == 'left'){
       let filtered = testData.filter((elm) =>{
         return elm !== nameToDelete
@@ -139,7 +234,6 @@ const Dashboard = props => {
       toggleRed()
       setLastDirection(direction)
         setTestData(filtered)
-        console.log(filtered, 'filtered array')
     } else setTestData(testData)
     
   }
@@ -149,10 +243,10 @@ const Dashboard = props => {
   }
 
   console.log(testData, 'testData outside return')
+
+
   return (
     <DivSizing>
-
-      <Messages />
 
       <div className='cardContainer'>
         {testData.map(item =>
@@ -163,7 +257,7 @@ const Dashboard = props => {
             onCardLeftScreen={() => outOfFrame(item.companyName)}
           >
             <div className='card'>
-              <h3>{item.companyName}</h3>
+              <h3>{item.companyName || item.firstname}</h3>
             </div>
           </TinderCard>
         )}
@@ -177,9 +271,12 @@ const Dashboard = props => {
 const mapStateToProps = state => {
   return {
     jobListings: state.jobListings,
-    userListings: state.userListings
+    userListings: state.userListings,
+    matchCompany: state.matchCompany,
+    loggedInUser: state.loggedInUser,
+    loggedInCompany: state.loggedInCompany
   }
 };
 
 
-export default connect(mapStateToProps, { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany })(Dashboard);
+export default connect(mapStateToProps, { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany })(Dashboard);

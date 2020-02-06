@@ -1,6 +1,7 @@
 import authios from '../api/authios';
 import { server } from '../routes';
 import {
+    SIGN_IN,
     SIGN_OUT,
     GET_USER_LISTINGS,
     GET_USER_LISTINGS_SUCCESS,
@@ -19,23 +20,45 @@ import {
     SAVE_USER_FAILURE,
     SAVE_COMPANY,
     SAVE_COMPANY_SUCCESS,
-    SAVE_COMPANY_FAILURE
+    SAVE_COMPANY_FAILURE,
+    POST_COMPANY_MATCH,
+    POST_COMPANY_MATCH_SUCCESS
 } from './actions';
 
 export const act = (type, payload) => ({ type, payload })
 
+// Actually gets companies, not job listings. Ha.
 export const getJobListings = () => {
-    console.log(server);
     return dispatch => {
         dispatch({
             type: GET_JOB_LISTINGS,
         });
         authios().get(server.base + server.ends.companies.GET())
             .then(res => {
-                console.log('/companies', res);
-                dispatch({
-                    type: GET_JOB_LISTINGS_SUCCESS,
-                    payload: res.data
+                
+                const companies = res.data;
+                const companiesWithProfiles = [];
+
+                let currentRequest = 0;
+                companies.forEach(company => {
+                    authios().get(server.base + server.ends.company_profile.GET(company.id))
+                        .then(res => {
+                            currentRequest++;
+                            companiesWithProfiles.push({
+                                ...company,
+                                profile: res.data.profiles.length ? { ...res.data.profiles[0] } : null
+                            });
+
+                            if(currentRequest === companies.length) {
+                                // this is the last request
+                                dispatch({
+                                    type: GET_JOB_LISTINGS_SUCCESS,
+                                    payload: companiesWithProfiles
+                                });
+                            }
+                            
+                        })
+                        .catch(err => console.warn(err));
                 });
             })
             .catch(err => {
@@ -55,10 +78,32 @@ export const getUserListings = () => {
         });
         authios().get(server.base + server.ends.users.GET())
             .then(res => {
-                console.log('/users', res);
-                dispatch({
-                    type: GET_USER_LISTINGS_SUCCESS,
-                    payload: res.data
+                
+                const users = res.data;
+                const usersWithProfiles = [];
+
+                let currentRequest = 0;
+                users.forEach(user => {
+                    authios().get(server.base + server.ends.user_profile.GET(user.id))
+                        .then(res => {
+                            currentRequest++;
+
+                            usersWithProfiles.push({
+                                ...user,
+                                profile: res.data.profiles.length ? { ...res.data.profiles[0] } : null,
+                                images: res.data.images,
+                                interests: res.data.interests,
+                                experiences: res.data.experiences
+                            });
+                            if(currentRequest === users.length) {
+                                // this is the last request
+                                dispatch({
+                                    type: GET_USER_LISTINGS_SUCCESS,
+                                    payload: usersWithProfiles
+                                });
+                            }
+                         })
+                         .catch(err => console.warn(err));
                 });
             })
             .catch(err => {
@@ -70,6 +115,32 @@ export const getUserListings = () => {
             });
     };
 };
+
+export const matchCompany = (companyMatch, userId, loggedInCompanyId) => {
+    return dispatch => {
+
+        dispatch({
+            type: POST_COMPANY_MATCH
+        });
+        const company = {
+            user_id: userId || loggedInCompanyId,
+            company_id: companyMatch.id,
+            company_liked: "true",
+        };
+        authios().post(server.base + server.ends.company_match.POST(companyMatch.id), company)
+        .then(res => {
+            console.log('match res', res);
+            dispatch({
+                type: POST_COMPANY_MATCH_SUCCESS,
+                payload: companyMatch
+            })
+        })
+        .catch(
+            err => console.warn(err)
+        )
+    }
+};
+
 
 export const saveUser = userWithProfile => {
     return dispatch => {
@@ -145,7 +216,7 @@ export const saveUser = userWithProfile => {
     };
 };
 
-export const saveCompany = company => {
+export const saveCompany = companyWithProfile => {
 
 };
 
@@ -197,23 +268,42 @@ export const getLoggedInUser = id => {
     };
 };
 
+
+
 export const getLoggedInCompany = id => {
     return dispatch => {
         dispatch({
             type: GET_LOGGED_IN_COMPANY
-        })
+        });
 
         authios().get(server.base + server.ends.company.GET(id))
             .then(res => {
+                const { data } = res;
+                const company = {
+                    ...data["0"],
+                    joblistings: data.joblistings
+                };
+
+                if(data.images.length) {
+                    company.imageId = data.images[0].id;
+                    company.image = data.images[0].company_image
+                }
+
                 dispatch({
                     type: GET_LOGGED_IN_COMPANY_SUCCESS,
-                    payload: res.data
+                    payload: company
                 });  
             })
             .catch(err => dispatch({
                 type: GET_LOGGED_IN_COMPANY_FAILURE,
                 payload: err.message
             }));
+    };
+};
+
+export const signInUser = () => {
+    return {
+        type: SIGN_IN
     };
 };
 
