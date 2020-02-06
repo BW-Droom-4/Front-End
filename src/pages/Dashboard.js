@@ -3,6 +3,17 @@ import { connect } from 'react-redux';
 import TinderCard from 'react-tinder-card';
 import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany } from '../actions/act';
 import Messages from './Messages';
+import styled from "styled-components/macro";
+
+
+export const DivSizing = styled.div `
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
 
 const Dashboard = props => {
 
@@ -129,9 +140,9 @@ const Dashboard = props => {
 
   console.log(testData, 'testData outside return')
   return (
-    <div>
+    <DivSizing>
 
-    <Messages />
+      <Messages />
 
       <div className='cardContainer'>
         {testData.map(item =>
@@ -148,7 +159,7 @@ const Dashboard = props => {
         )}
       </div>
       {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
-    </div>
+    </DivSizing>
   )
 }
 

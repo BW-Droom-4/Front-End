@@ -62,6 +62,41 @@ export const Error = styled.p`
     line-height: 0.5;
 `
 let requiredToggledFields = null;
+// export const LoginLink = styled.div`
+//     font-size: 10px;
+//     line-height: 0.5;
+// `
+export const RegisterHeader = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const LoginLink = styled.a `
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #263D42;
+    &:hover {
+        color: #63C7B2;
+      }
+    
+`
+export const RegisterButton = styled.button `
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #63C7B2;
+    border: 5px outset #2A9D8F;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #263D42;
+    &:hover {
+        background: #2A9D8F;
+        border: 5px inset #63C7B2;
+      }
+    margin-bottom: 10px;  
+`
+;
 
 const UserForm = ({ values, errors, touched, status }) => {
 
@@ -92,7 +127,7 @@ const UserForm = ({ values, errors, touched, status }) => {
     return (
         <div>
             <RegisterContainer>
-                <RegisterHeader>Create Account</RegisterHeader>
+                <RegisterHeader>Sign Up</RegisterHeader>
                 <Form>
                     <label htmlFor="role">
                         Role:
@@ -155,13 +190,14 @@ const UserForm = ({ values, errors, touched, status }) => {
                     {touched.password && errors.password && (
                         <Error className="errors">{errors.password}</Error>
                     )}
-                    
+                    <br/>
                     
                     <RegisterButton type="submit">Submit</RegisterButton>
-                    <br />
-                    <LoginLink>
-                        <a href="/Login">Already Have An Account?</a>
-                    </LoginLink>
+                    <br/>
+                    <br/>
+                    
+                    <LoginLink href="/Login">Already Have An Account?</LoginLink>
+                   
                 </Form>
             </RegisterContainer>
         </div>
