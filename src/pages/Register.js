@@ -23,6 +23,7 @@ export const RegisterContainer = styled.div`
     align-items: space-around;
     flex-direction: column;
     padding-bottom: 10px;
+    margin: 50px;
     
 `
 export const RegisterButton = styled.button `
