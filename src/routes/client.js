@@ -10,7 +10,6 @@ export default {
       user    : (id) => `/users/${id}`,
       companies: () => `/companies`,
       company  : (id) => `/companies/${id}`,
-      match   : (id) => `/companies/${id}/match`
     },
   }
   

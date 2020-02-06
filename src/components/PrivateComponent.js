@@ -2,15 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const PrivateComponent = ({component: Component}) => {
-    const userRole = localStorage.getItem("role");
-    const loggedInUser = useSelector(state => state.loggedInUser);
-    const loggedInCompany = useSelector(state => state.loggedInCompany);
+    const loggedInUserId = useSelector(state => {
+        const userRole = localStorage.getItem("role");
+        return userRole === "User" ? state.loggedInUser.id : state.loggedInCompany.id;
+    });
 
-    const loggedInId = userRole === "User" ? loggedInUser.id : loggedInCompany.id;
-    console.log('rendering private component');
-
-    if(loggedInId > 0) {
-        return <Component id={loggedInId} />
+    if(loggedInUserId > 0) {
+        return <Component />
     }
     return null;
 };
