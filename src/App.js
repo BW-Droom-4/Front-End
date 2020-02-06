@@ -15,8 +15,6 @@ import Navigation from './components/Navigation';
 import { getLoggedInUser, getLoggedInCompany } from './actions/act';
 import { useSelector, useDispatch } from 'react-redux';
 
-
-
 function App() {
 
   const loggedIn = useSelector(state => state.loggedIn);
@@ -25,12 +23,12 @@ function App() {
   
   useEffect(() => {
     // set the user in the store
-    // console.log('hit useEffect');
+    console.log('hit useEffect');
     const userRole = localStorage.getItem('role');
     
     const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
     if(userRole === "User") {
-      // console.log('hit User');
+      console.log('hit User');
       dispatch(getLoggedInUser(jwtPayload.userId));
     }
     else if(userRole === "Company") {
@@ -42,10 +40,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* logged-in navigation */}
-      {loggedIn && (
-        <Navigation />
-      )}
+
       <Switch>
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/profile" component={Profile} />
@@ -55,7 +50,10 @@ function App() {
         <Route path="/Register" component={Register}/>
         <Route path={["/Login", "/"]} component={Login}/>
       </Switch>
-      
+      {/* logged-in navigation */}
+      {loggedIn && (
+        <Navigation />
+      )}
 
       
     </div>
