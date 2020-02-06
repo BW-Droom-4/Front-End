@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-    switch(action.payload) {
+    switch(action.type) {
         case GET_LOGGED_IN_COMPANY_SUCCESS:
             return action.payload;
         case SIGN_OUT:
