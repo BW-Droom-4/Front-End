@@ -5,6 +5,7 @@ import userListings from './userListings';
 import jobListings from './jobListings';
 import loading from './loading';
 import error from './error';
+import loggedIn from './loggedIn';
 
 export default combineReducers({
     loggedInUser,
@@ -12,6 +13,7 @@ export default combineReducers({
     userListings,
     jobListings,
     loading,
-    error
+    error,
+    loggedIn
 });
 

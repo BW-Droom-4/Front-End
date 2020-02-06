@@ -1,6 +1,7 @@
 import authios from '../api/authios';
 import { server } from '../routes';
 import {
+    SIGN_IN,
     SIGN_OUT,
     GET_USER_LISTINGS,
     GET_USER_LISTINGS_SUCCESS,
@@ -214,6 +215,12 @@ export const getLoggedInCompany = id => {
                 type: GET_LOGGED_IN_COMPANY_FAILURE,
                 payload: err.message
             }));
+    };
+};
+
+export const signInUser = () => {
+    return {
+        type: SIGN_IN
     };
 };
 

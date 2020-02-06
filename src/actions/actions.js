@@ -72,6 +72,7 @@ export const COMPANY_SIGN_IN_TRY     = 'COMPANY_SIGN_IN_TRY'
 export const COMPANY_SIGN_IN_SUCCESS = 'COMPANY_SIGN_IN_SUCCESS'
 export const COMPANY_SIGN_IN_FAILURE = 'COMPANY_SIGN_IN_FAILURE'
 
+export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT         = 'SIGN_OUT'
 export const SIGN_OUT_TRY     = 'SIGN_OUT_TRY'
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'

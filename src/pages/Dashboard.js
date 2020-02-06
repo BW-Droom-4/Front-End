@@ -17,17 +17,7 @@ export const DivSizing = styled.div `
 
 const Dashboard = props => {
 
-  useEffect(() => {
-    // set the user in the store
-    const userRole = localStorage.getItem('role');
-    const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
-    if(userRole === "User") {
-      props.getLoggedInUser(jwtPayload.userId);
-    }
-    else if(userRole === "Company") {
-      props.getLoggedInCompany(jwtPayload.companyId);
-    }
-  }, []);
+
 
   const jobListings = props.jobListings.map((elm) => elm)
 
@@ -151,8 +141,6 @@ const Dashboard = props => {
   console.log(testData, 'testData outside return')
   return (
     <DivSizing>
-
-      <Messages />
 
       <div className='cardContainer'>
         {testData.map(item =>
