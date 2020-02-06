@@ -21,20 +21,22 @@ function App() {
 
   const dispatch = useDispatch();
   
-
   useEffect(() => {
     // set the user in the store
+    console.log('hit useEffect');
     const userRole = localStorage.getItem('role');
     
     const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
     if(userRole === "User") {
+      console.log('hit User');
       dispatch(getLoggedInUser(jwtPayload.userId));
     }
     else if(userRole === "Company") {
+      console.log('hit Company');
       dispatch(getLoggedInCompany(jwtPayload.companyId));
     }
     
-  });
+  }, [loggedIn]);
 
   return (
     <div className="App">
