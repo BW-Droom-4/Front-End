@@ -6,7 +6,6 @@ import jobListings from './jobListings';
 import loading from './loading';
 import error from './error';
 import loggedIn from './loggedIn';
-import companyMatch from './companyMatch'
 
 export default combineReducers({
     loggedInUser,
@@ -15,7 +14,6 @@ export default combineReducers({
     jobListings,
     loading,
     error,
-    loggedIn,
-    companyMatch
+    loggedIn
 });
 
