@@ -25,6 +25,7 @@ export const LoginContainer = styled.div `
     justify-content: center;
     align-items: space-around;
     flex-direction: column;
+    margin: 50px;
     
 `
 export const LoginHeader = styled.h1 `
@@ -63,6 +64,7 @@ export const Error = styled.p `
     font-weight: normal;
     line-height: 0.5;
 `
+
 
 const Login =({values, errors, touched, status}) =>{
 
