@@ -8,8 +8,8 @@ import jwt_decode from 'jwt-decode';
 
 // let database = ""
 export const LoginContainer = styled.div `
-    width: 30vw;
-    height: 75vh;
+    width: 30%;
+    height: 75%;
     background-color: #F05D5E;
     background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
