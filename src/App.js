@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import { Switch, Route } from 'react-router-dom';
@@ -13,15 +13,19 @@ import Matches from './pages/Matches';
 import JobForm from './pages/JobForm';
 import Navigation from './components/Navigation';
 import { getLoggedInUser, getLoggedInCompany } from './actions/act';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
+  const loggedIn = useSelector(state => state.loggedIn);
+
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     // set the user in the store
     const userRole = localStorage.getItem('role');
+    
     const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
     if(userRole === "User") {
       dispatch(getLoggedInUser(jwtPayload.userId));
@@ -29,7 +33,8 @@ function App() {
     else if(userRole === "Company") {
       dispatch(getLoggedInCompany(jwtPayload.companyId));
     }
-  }, []);
+    
+  });
 
   return (
     <div className="App">
@@ -43,10 +48,10 @@ function App() {
         <Route path="/Register" component={Register}/>
         <Route path={["/Login", "/"]} component={Login}/>
       </Switch>
-      <Route>
-        {/* logged-in navigation */}
-        <PrivateComponent component={Navigation} />
-      </Route>
+      {/* logged-in navigation */}
+      {loggedIn && (
+        <Navigation />
+      )}
 
       
     </div>
