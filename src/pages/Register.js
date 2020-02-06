@@ -15,10 +15,7 @@ export const RegisterContainer = styled.div `
     font-weight: bold;
     color: #263D42;
     text-shadow: 1px 1px #2A9D8F; 
-<<<<<<< HEAD
-=======
     letter-spacing: 1px;
->>>>>>> 1ee8944a44b1d04a62830eeb632d787a48be021b
     line-height: 1.5;
     font-size: 1.2rem;
     display: flex;
@@ -28,12 +25,7 @@ export const RegisterContainer = styled.div `
     padding-bottom: 10px;
     
 `
-export const RegisterHeader = styled.h1 `
-    font-weight: bolder;
-    color: #263D42;
-    text-shadow: 1px 1px #63C7B2;
-    font-family: 'Alatsi', sans-serif;
-`
+
 export const RegisterButton = styled.button `
     width: 100px;
     height: 35px;
@@ -74,31 +66,8 @@ export const RegisterHeader = styled.h1 `
     text-shadow: 1px 1px #63C7B2;
     font-family: 'Alatsi', sans-serif;
 `
-export const LoginLink = styled.a `
-    font-size: 1rem;
-    letter-spacing: 1px;
-    color: #263D42;
-    &:hover {
-        color: #63C7B2;
-      }
-    
-`
-export const RegisterButton = styled.button `
-    width: 100px;
-    height: 35px;
-    border-radius: 5px;
-    background-color: #63C7B2;
-    border: 5px outset #2A9D8F;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #263D42;
-    &:hover {
-        background: #2A9D8F;
-        border: 5px inset #63C7B2;
-      }
-    margin-bottom: 10px;  
-`
-;
+
+
 
 const UserForm = ({ values, errors, touched, status }) => {
 
