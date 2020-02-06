@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components/macro';
 
 export const MessageContainer = styled.div `
-    width: 50vw;
-    height: 75vh;
+    width: 50%;
+    height: 50%;
     background-color: #2A9D8F;
     background-image: linear-gradient(#2A9D8F, #63C7B2);
     border-radius: 10px;
@@ -18,14 +18,17 @@ export const MessageContainer = styled.div `
     justify-content: center;
     align-items: space-around;
     flex-direction: column;
+    margin: 50px;
 `
 
 const Messages =() =>{
 
+    
+
 
     return(
         <MessageContainer>
-            These are the messages!
+            
 
         </MessageContainer>
         
