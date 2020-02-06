@@ -142,8 +142,6 @@ const Dashboard = props => {
   return (
     <DivSizing>
 
-      <Messages />
-
       <div className='cardContainer'>
         {testData.map(item =>
           <TinderCard

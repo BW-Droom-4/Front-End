@@ -231,8 +231,9 @@ const FormikForm = withFormik({
 
     handleSubmit(values, { props, resetForm, setStatus }) {
         console.log("submitting", values);
+        console.log('Selected role', values.role);
 
-        if(values.role = "Company"){
+        if(values.role === "Company"){
 
             delete values.firstname;
             delete values.lastname;
@@ -243,9 +244,9 @@ const FormikForm = withFormik({
         }
 
         axios
-            .post(values.role === "Company" 
+            .post((values.role === "Company" 
                 ? "https://droom-4.herokuapp.com/api/auth/companies/register"
-                : "https://droom-4.herokuapp.com/api/auth/users/register", 
+                : "https://droom-4.herokuapp.com/api/auth/users/register"), 
                 values,
                 {
                     headers: {
