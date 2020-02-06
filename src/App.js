@@ -15,6 +15,8 @@ import Navigation from './components/Navigation';
 import { getLoggedInUser, getLoggedInCompany } from './actions/act';
 import { useSelector, useDispatch } from 'react-redux';
 
+
+
 function App() {
 
   const loggedIn = useSelector(state => state.loggedIn);
@@ -40,7 +42,10 @@ function App() {
 
   return (
     <div className="App">
-
+      {/* logged-in navigation */}
+      {loggedIn && (
+        <Navigation />
+      )}
       <Switch>
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/profile" component={Profile} />
@@ -50,10 +55,7 @@ function App() {
         <Route path="/Register" component={Register}/>
         <Route path={["/Login", "/"]} component={Login}/>
       </Switch>
-      {/* logged-in navigation */}
-      {loggedIn && (
-        <Navigation />
-      )}
+      
 
       
     </div>
