@@ -108,6 +108,12 @@ export const GET_JOB_LISTINGS = 'GET_JOB_LISTINGS';
 export const GET_JOB_LISTINGS_SUCCESS = 'GET_JOB_LISTINGS_SUCCESS';
 export const GET_JOB_LISTINGS_FAILURE = 'GET_JOB_LISTINGS_FAILURE';
 
+/// MATCH ///
+
+export const POST_COMPANY_MATCH = 'POST_COMPANY_MATCH';
+export const POST_COMPANY_MATCH_SUCCESS = 'POST_COMPANY_MATCH_SUCCESS';
+
+
 // /// ALL USERS -- stretch ///
 
 // export const GET_USERS         = 'GET_USERS'
@@ -115,47 +121,6 @@ export const GET_JOB_LISTINGS_FAILURE = 'GET_JOB_LISTINGS_FAILURE';
 // export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS'
 // export const GET_USERS_FAILURE = 'GET_USERS_FAILURE'
 
-// /// ALL GRAPHS -- stretch ///
 
-// export const GET_GRAPHS         = 'GET_GRAPHS'
-// export const GET_GRAPHS_TRY     = 'GET_GRAPHS_TRY'
-// export const GET_GRAPHS_SUCCESS = 'GET_GRAPHS_SUCCESS'
-// export const GET_GRAPHS_FAILURE = 'GET_GRAPHS_FAILURE'
-
-// /// USER ///
-
-// export const GET_USER         = 'GET_USER'
-// export const GET_USER_TRY     = 'GET_USER_TRY'
-// export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
-// export const GET_USER_FAILURE = 'GET_USER_FAILURE'
-
-// /// USER GRAPHS ///
-
-// export const GET_USER_GRAPHS         = 'GET_USER_GRAPHS'
-// export const GET_USER_GRAPHS_TRY     = 'GET_USER_GRAPHS_TRY'
-// export const GET_USER_GRAPHS_SUCCESS = 'GET_USER_GRAPHS_SUCCESS'
-// export const GET_USER_GRAPHS_FAILURE = 'GET_USER_GRAPHS_FAILURE'
-
-// /// GRAPH ///
-
-// export const POST_GRAPH         = 'POST_GRAPH'
-// export const POST_GRAPH_TRY     = 'POST_GRAPH_TRY'
-// export const POST_GRAPH_SUCCESS = 'POST_GRAPH_SUCCESS'
-// export const POST_GRAPH_FAILURE = 'POST_GRAPH_FAILURE'
-
-// export const GET_GRAPH         = 'GET_GRAPH'
-// export const GET_GRAPH_TRY     = 'GET_GRAPH_TRY'
-// export const GET_GRAPH_SUCCESS = 'GET_GRAPH_SUCCESS'
-// export const GET_GRAPH_FAILURE = 'GET_GRAPH_FAILURE'
-
-// export const PUT_GRAPH         = 'PUT_GRAPH'
-// export const PUT_GRAPH_TRY     = 'PUT_GRAPH_TRY'
-// export const PUT_GRAPH_SUCCESS = 'PUT_GRAPH_SUCCESS'
-// export const PUT_GRAPH_FAILURE = 'PUT_GRAPH_FAILURE'
-
-// export const DELETE_GRAPH         = 'DELETE_GRAPH'
-// export const DELETE_GRAPH_TRY     = 'DELETE_GRAPH_TRY'
-// export const DELETE_GRAPH_SUCCESS = 'DELETE_GRAPH_SUCCESS'
-// export const DELETE_GRAPH_FAILURE = 'DELETE_GRAPH_FAILURE'
 
 /**************************************/

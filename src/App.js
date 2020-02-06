@@ -23,12 +23,12 @@ function App() {
   
   useEffect(() => {
     // set the user in the store
-    console.log('hit useEffect');
+    // console.log('hit useEffect');
     const userRole = localStorage.getItem('role');
     
     const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
     if(userRole === "User") {
-      console.log('hit User');
+      // console.log('hit User');
       dispatch(getLoggedInUser(jwtPayload.userId));
     }
     else if(userRole === "Company") {

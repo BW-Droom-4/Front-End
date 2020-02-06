@@ -78,7 +78,8 @@ const Profile =() =>{
 
     return(
         <FormContainer>
-            <Link to="/jobform">Post a new job</Link>
+            {userRole === "Company" && <Link to="/jobform">Post a new job</Link>}
+            
             <form onSubmit={handleSubmit}>
                 {userRole === "User" && (
                     <>
@@ -103,15 +104,25 @@ const Profile =() =>{
                     </>
                 )}
                 {userRole === "Company" && (
-                    <label>
-                        <p>Company Name</p>
-                        <input
-                            type="text"
-                            name="companyName"
-                            value={profileForm.companyName}
-                            onChange={handleChange}
-                        />
-                    </label>
+                    <>
+                        <label>
+                            <p>Company Name</p>
+                            <input
+                                type="text"
+                                name="companyName"
+                                value={profileForm.companyName}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            <p>Sector</p>
+                            <input
+                                type="text"
+                                name="sector"
+                                value={profileForm.sector}
+                            />
+                        </label>
+                    </>
                 )}
                 {userRole === "User" && (
                     <>
