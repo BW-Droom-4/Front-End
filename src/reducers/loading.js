@@ -16,7 +16,13 @@ import {
     SAVE_USER_FAILURE,
     SAVE_COMPANY,
     SAVE_COMPANY_SUCCESS,
-    SAVE_COMPANY_FAILURE
+    SAVE_COMPANY_FAILURE,
+    SAVE_COMPANY_JOB_LISTING,
+    SAVE_COMPANY_JOB_LISTING_SUCCESS,
+    SAVE_COMPANY_JOB_LISTING_FAILURE,
+    DELETE_COMPANY_JOB_LISTING,
+    DELETE_COMPANY_JOB_LISTING_SUCCESS,
+    DELETE_COMPANY_JOB_LISTING_FAILURE
  } from '../actions/actions';
 
 const initialState = false;
@@ -29,6 +35,8 @@ export default (state = initialState, action) => {
         case GET_LOGGED_IN_USER:
         case SAVE_USER:
         case SAVE_COMPANY:
+        case SAVE_COMPANY_JOB_LISTING:
+        case DELETE_COMPANY_JOB_LISTING:
             return true;
         case GET_JOB_LISTINGS_SUCCESS:
         case GET_JOB_LISTINGS_FAILURE:
@@ -42,6 +50,10 @@ export default (state = initialState, action) => {
         case SAVE_USER_FAILURE:
         case SAVE_COMPANY_SUCCESS:
         case SAVE_COMPANY_FAILURE:
+        case SAVE_COMPANY_JOB_LISTING_SUCCESS:
+        case SAVE_COMPANY_JOB_LISTING_FAILURE:
+        case DELETE_COMPANY_JOB_LISTING_SUCCESS:
+        case DELETE_COMPANY_JOB_LISTING_FAILURE:
             return false;
         default:
             return state;

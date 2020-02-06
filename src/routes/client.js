@@ -10,7 +10,8 @@ export default {
       user    : (id) => `/users/${id}`,
       companies: () => `/companies`,
       company  : (id) => `/companies/${id}`,
-      match   : (id) => `/companies/${id}/match`
+      matchcompany   : (id) => `/companies/${id}/match`,
+      matchuser : (id) => `/companies/${id}/match`
     },
   }
   

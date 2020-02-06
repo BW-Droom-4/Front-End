@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useSelector } from "react";
 import { connect } from 'react-redux';
 import TinderCard from 'react-tinder-card';
-import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany,  } from '../actions/act';
+import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany, matchUser  } from '../actions/act';
 import Messages from './Messages';
 import styled from "styled-components/macro";
 import authios from '../api/authios';
@@ -59,7 +59,7 @@ const Dashboard = props => {
 
   const loggedInRole = localStorage.getItem('role'); // "User" or "Company"
   const jobListings = props.jobListings.map((elm) => elm)
-  //const userListings = props.userListings.map((elm) => elm)
+  const userListings = props.userListings.map((elm) => elm)
 
   const userRole = localStorage.getItem('role');
 
@@ -120,10 +120,9 @@ const Dashboard = props => {
 
   const pushNewData = (role) => {
     if(role === "Company"){
-      console.log('this is a company sir')
 
       let newData = testData.map((elm)=>{return elm})
-      let randoCompanyData = userTest.map((elm)=>{return elm})
+      let randoCompanyData = userListings.map((elm)=>{return elm})
 
       let i = 0;
       do{
@@ -132,13 +131,15 @@ const Dashboard = props => {
           if(newData[1] !== random){
             if(newData[2] !== random){
               if(newData[3] !== random){
-                newData.push(random)
+                if(newData[4] !==random){
+                  newData.push(random)
+                }
               }
             }
           }
         }
           i++;
-      } while (i < 3)
+      } while (i < 4)
       setTestData(newData)
 
     } else if (role === "User"){
@@ -165,8 +166,17 @@ const Dashboard = props => {
   };
 
 
-  const setMatchdata = (id) => {
+  const setUserMatchdata = (id) => {
+    console.log('this is grabing whether the user has matched or not.')
     authios().get(server.base + server.ends.company_match.GET(id)).then(
+      res => console.log(res)).catch(
+        err => console.log(err)
+      )
+  }
+
+  const grabCompanyMatchdata = (id) => {
+    console.log('this is grabing whether the company has matched or not.')
+    authios().get(server.base + server.ends.user_match.GET(id)).then(
       res => console.log(res)).catch(
         err => console.log(err)
       )
@@ -214,36 +224,53 @@ const Dashboard = props => {
 
   const swiped = (direction, nameToDelete) => {
 
+    const loggedInRole = localStorage.getItem('role')
+
+
     if(direction == 'right' ){
       let filtered = testData.filter((elm) =>{
         return elm !== nameToDelete
         })
-
-      
-
-      setMatchdata(nameToDelete.id)
-      props.matchCompany(nameToDelete, loggedInUserId, loggedInCompanyId)
-      toggleGreen()
-      setLastDirection(direction)
+        if(loggedInRole === "Company"){
+          grabCompanyMatchdata(nameToDelete.id)
+          props.matchUser(nameToDelete, loggedInUserId, loggedInCompanyId, direction)
+          toggleGreen()
+          
+        } else if(loggedInRole === 'User'){
+          setUserMatchdata(nameToDelete.id)
+          props.matchCompany(nameToDelete, loggedInUserId, loggedInCompanyId , direction)
+          toggleGreen()
+        }
+        setLastDirection(direction)
         setTestData(filtered)
     } else if(direction == 'left'){
       let filtered = testData.filter((elm) =>{
         return elm !== nameToDelete
         })
+        if(loggedInRole === "Company"){
+          grabCompanyMatchdata(nameToDelete.id)
+          props.matchUser(nameToDelete, loggedInUserId, loggedInCompanyId, direction)
+          toggleRed()
+          //denyUserMatch
+        } else if(loggedInRole === 'User'){
+          setUserMatchdata(nameToDelete.id)
+          props.matchCompany(nameToDelete, loggedInUserId, loggedInCompanyId , direction)
+          toggleRed()
+        }
 
-      toggleRed()
       setLastDirection(direction)
-        setTestData(filtered)
+      setTestData(filtered)
     } else setTestData(testData)
     
   }
 
   const outOfFrame = (name) => {
-    console.log(name + ' left the screen!')
+    if(name.companyName){
+      console.log(name.companyName + ' left the screen!')
+    } else if(name.firstname){
+      console.log(name.firstname + ' left the screen')
+    } else console.warn('outOfFrame is failing miserably')
   }
-
-  console.log(testData, 'testData outside return')
-
 
   return (
     <DivSizing>
@@ -254,7 +281,7 @@ const Dashboard = props => {
             className='swipe'
             key={item.id}
             onSwipe={(dir) => swiped(dir, item)}
-            onCardLeftScreen={() => outOfFrame(item.companyName)}
+            onCardLeftScreen={() => outOfFrame(item)}
           >
             <div className='card'>
               <h3>{item.companyName || item.firstname}</h3>
@@ -274,9 +301,10 @@ const mapStateToProps = state => {
     userListings: state.userListings,
     matchCompany: state.matchCompany,
     loggedInUser: state.loggedInUser,
-    loggedInCompany: state.loggedInCompany
+    loggedInCompany: state.loggedInCompany,
+    userListings: state.userListings
   }
 };
 
 
-export default connect(mapStateToProps, { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany })(Dashboard);
+export default connect(mapStateToProps, { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany, matchUser  })(Dashboard);
