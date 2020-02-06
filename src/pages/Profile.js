@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUser, saveCompany } from '../actions/act';
 import styled from "styled-components/macro";
+import { Link } from 'react-router-dom';
 
 export const ProfileSubmitButton = styled.button `
     width: 100px;
@@ -77,6 +78,7 @@ const Profile =() =>{
 
     return(
         <FormContainer>
+            <Link to="/jobform">Post a new job</Link>
             <form onSubmit={handleSubmit}>
                 {userRole === "User" && (
                     <>
