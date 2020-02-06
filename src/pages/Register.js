@@ -6,8 +6,8 @@ import * as Yup from "yup";
 import styled from 'styled-components/macro';
 
 export const RegisterContainer = styled.div`
-    width: 30vw;
-    height: 100%;
+    width: 30%;
+    height: 75%;
     background-color: #F05D5E;
     background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
@@ -23,15 +23,10 @@ export const RegisterContainer = styled.div`
     align-items: space-around;
     flex-direction: column;
     padding-bottom: 10px;
+    margin: 50px;
     
 `
-export const RegisterHeader = styled.h1`
-    font-weight: bolder;
-    color: #263D42;
-    text-shadow: 1px 1px #63C7B2;
-    font-family: 'Alatsi', sans-serif;
-`
-export const RegisterButton = styled.button`
+export const RegisterButton = styled.button `
     width: 100px;
     height: 35px;
     border-radius: 5px;
@@ -43,8 +38,8 @@ export const RegisterButton = styled.button`
     &:hover {
         background: #2A9D8F;
         border: 5px inset #63C7B2;
-      }
-    margin: 10px;  
+    }
+    margin-bottom: 10px;  
 `
 export const LoginLink = styled.a`
     font-size: 1rem;
@@ -66,37 +61,20 @@ let requiredToggledFields = null;
 //     font-size: 10px;
 //     line-height: 0.5;
 // `
-// export const RegisterHeader = styled.h1 `
-//     font-weight: bolder;
-//     color: #263D42;
-//     text-shadow: 1px 1px #63C7B2;
-//     font-family: 'Alatsi', sans-serif;
-// `
-// export const LoginLink = styled.a `
-//     font-size: 1rem;
-//     letter-spacing: 1px;
-//     color: #263D42;
-//     &:hover {
-//         color: #63C7B2;
-//       }
-    
-// `
-// export const RegisterButton = styled.button `
-//     width: 100px;
-//     height: 35px;
-//     border-radius: 5px;
-//     background-color: #63C7B2;
-//     border: 5px outset #2A9D8F;
-//     font-size: 1rem;
-//     font-weight: bold;
-//     color: #263D42;
-//     &:hover {
-//         background: #2A9D8F;
-//         border: 5px inset #63C7B2;
-//       }
-//     margin-bottom: 10px;  
-// `
-// ;
+export const RegisterHeader = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const DivSizeCorrection = styled.div `
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
 
 const UserForm = ({ values, errors, touched, status }) => {
 
@@ -125,7 +103,7 @@ const UserForm = ({ values, errors, touched, status }) => {
 
     
     return (
-        <div>
+        <DivSizeCorrection>
             <RegisterContainer>
                 <RegisterHeader>Sign Up</RegisterHeader>
                 <Form>
@@ -194,13 +172,13 @@ const UserForm = ({ values, errors, touched, status }) => {
                     
                     <RegisterButton type="submit">Submit</RegisterButton>
                     <br/>
-                    <br/>
+                    
                     
                     <LoginLink href="/Login">Already Have An Account?</LoginLink>
                    
                 </Form>
             </RegisterContainer>
-        </div>
+        </DivSizeCorrection>
     );
 };
 

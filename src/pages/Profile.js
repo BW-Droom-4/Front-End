@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUser, saveCompany } from '../actions/act';
 import styled from "styled-components/macro";
+import { Link } from 'react-router-dom';
 
 export const ProfileSubmitButton = styled.button `
     width: 100px;
@@ -35,6 +36,7 @@ export const FormContainer = styled.div `
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 50px;
 `
 
 
@@ -77,6 +79,8 @@ const Profile =() =>{
 
     return(
         <FormContainer>
+            {userRole === "Company" && <Link to="/jobform">Post a new job</Link>}
+            
             <form onSubmit={handleSubmit}>
                 {userRole === "User" && (
                     <>
@@ -101,15 +105,25 @@ const Profile =() =>{
                     </>
                 )}
                 {userRole === "Company" && (
-                    <label>
-                        <p>Company Name</p>
-                        <input
-                            type="text"
-                            name="companyName"
-                            value={profileForm.companyName}
-                            onChange={handleChange}
-                        />
-                    </label>
+                    <>
+                        <label>
+                            <p>Company Name</p>
+                            <input
+                                type="text"
+                                name="companyName"
+                                value={profileForm.companyName}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            <p>Sector</p>
+                            <input
+                                type="text"
+                                name="sector"
+                                value={profileForm.sector}
+                            />
+                        </label>
+                    </>
                 )}
                 {userRole === "User" && (
                     <>

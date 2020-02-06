@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import { withFormik, Form, Field } from "formik";
-import axios from "axios";
+import authios from "../api/authios";
 import * as Yup from "yup";
 import styled from 'styled-components/macro';
 
-export const JobContainer = styled.div `
+export const JobContainer = styled.div`
 width: 50%;
 height: 90%;
 background-color: #F05D5E;
@@ -22,7 +23,7 @@ justify-content: center;
 align-items: space-around;
 flex-direction: column;
 `
-export const DivSizing = styled.div `
+export const DivSizing = styled.div`
   width: 100%;
   height: 90%;
   display: flex;
@@ -30,19 +31,19 @@ export const DivSizing = styled.div `
   justify-content: center;
   flex-direction: column;
 `
-export const Error = styled.p `
+export const Error = styled.p`
     color: yellow;
     font-size: .7rem;
     font-weight: normal;
     line-height: 0.5;
 `
-export const JobHeader = styled.h1 `
+export const JobHeader = styled.h1`
     font-weight: bolder;
     color: #263D42;
     text-shadow: 1px 1px #63C7B2;
     font-family: 'Alatsi', sans-serif;
 `
-export const JobButton = styled.button `
+export const JobButton = styled.button`
     width: 100px;
     height: 35px;
     border-radius: 5px;
@@ -62,7 +63,7 @@ export const JobButton = styled.button `
 const JobForm = ({ values, errors, touched, status }) => {
 
     const [jobs, setJobs] = useState([]);
-         useEffect(() => {
+    useEffect(() => {
 
         status && setJobs(jobs => [
             ...jobs, status
@@ -73,47 +74,47 @@ const JobForm = ({ values, errors, touched, status }) => {
     return (
         <DivSizing>
             <JobContainer>
-            <JobHeader>Add New Job</JobHeader>
+                <JobHeader>Add New Job</JobHeader>
                 <Form>
                     <label htmlFor="job_title">Job Title:</label>
-                    <br/>
-                    <Field id="job_title" type="text" name="job_title"/>
-                    <br/>
+                    <br />
+                    <Field id="job_title" type="text" name="job_title" />
+                    <br />
                     {touched.job_title && errors.job_title &&
-                    <Error>{errors.job_title}</Error>}
-                    <br/>
+                        <Error>{errors.job_title}</Error>}
+                    <br />
 
                     <label htmlFor="expiry_date">Expiry Date:</label>
-                    <br/>
-                    <Field id="expiry_date" type="text" name="expiry_date" />
-                    <br/>
+                    <br />
+                    <Field id="expiry_date" type="date" name="expiry_date" />
+                    <br />
                     {touched.expiry_date && errors.expiry_date &&
-                    <Error className="errors">{errors.expiry_date}</Error>}
-                    <br/>
+                        <Error className="errors">{errors.expiry_date}</Error>}
+                    <br />
 
                     <label html htmlFor="job_detail">
-                    Job Details:
+                        Job Details:
                     </label>
-                    <br/>
+                    <br />
                     <Field id="job_detail" type="text" name="job_detail" />
-                    <br/>
+                    <br />
                     {touched.job_detail && errors.job_detail && (
-                    <Error className="errors">{errors.job_detail}</Error>
+                        <Error className="errors">{errors.job_detail}</Error>
                     )}
-                    <br/>
+                    <br />
 
                     <label html htmlFor="matching_skill">
-                    Matching Skills:
+                        Matching Skills:
                     </label>
-                    <br/>
+                    <br />
                     <Field id="matching_skill" type="text" name="matching_skill" />
-                    <br/>
+                    <br />
                     {touched.matching_skill && errors.matching_skill && (
-                    <Error className="errors">{errors.matching_skill}</Error>
+                        <Error className="errors">{errors.matching_skill}</Error>
                     )}
-                    <br/>
-                    <br/>
-                    
+                    <br />
+                    <br />
+
                     <JobButton type="submit">Submit</JobButton>
                 </Form>
             </JobContainer>
@@ -123,40 +124,48 @@ const JobForm = ({ values, errors, touched, status }) => {
 };
 
 const FormikForm = withFormik({
-    mapPropsToValues({ job_title, expiry_date, job_detail, matching_skill}) {
-    return {
-        job_title: job_title || "",
-        expiry_date: expiry_date || "",
-        job_detail: job_detail || "",
-        matching_skill: matching_skill || "",
-    };
-},
+    mapPropsToValues({ job_title, expiry_date, job_detail, matching_skill }) {
+        return {
+            job_title: job_title || "",
+            expiry_date: expiry_date || "",
+            job_detail: job_detail || "",
+            matching_skill: matching_skill || "",
+        };
+    },
 
-validationSchema: Yup.object().shape({
-    job_title: Yup.string().required("Job title is Required."),
-    expiry_date: Yup.string().required("Expiry date is Required."),
-    job_detail: Yup.string().required("Details are Required"),
-    matching_skill: Yup.string().required("Matching Skills are Required.")
-}),
+    validationSchema: Yup.object().shape({
+        job_title: Yup.string().required("Job title is Required."),
+        expiry_date: Yup.string().required("Expiry date is Required."),
+        job_detail: Yup.string().required("Details are Required"),
+        matching_skill: Yup.string().required("Matching Skills are Required.")
+    }),
 
-handleSubmit(values, { props, resetForm, setStatus}) {
-    console.log("submitting", values);
-    axios
-        .post("https://droom-4.herokuapp.com/api/companies/:id/joblisting", values,
-        // {headers: {
-        //     'Content-Type': 'application/json'
-        //   }}
-        ) 
-        .then(res => {
-            console.log('success', res)
-            // localStorage.setItem('token', res.token);
-            resetForm();
-            props.history.push('/dashboard');
-        })
-        .catch(err => {
-            alert("Failed To Add New Job.", err);
-        });
-}
+    handleSubmit(values, { props, resetForm, setStatus }) {
+        console.log("submitting", values);
+        const companyId = props.loggedInCompany.id;
+        const joblisting = {
+            ...values,
+            company_id: companyId,
+            created_at: '',
+            updated: ''
+        };
+        authios()
+            .post(`https://droom-4.herokuapp.com/api/companies/${companyId}/joblisting`, joblisting)
+            .then(res => {
+                console.log('success', res)
+                resetForm();
+                props.history.push('/dashboard');
+            })
+            .catch(err => {
+                alert("Failed To Add New Job.", err);
+            });
+    }
 })(JobForm);
 
-export default FormikForm;
+const mapStateToProps = state => {
+    return {
+        loggedInCompany: state.loggedInCompany
+    }
+};
+
+export default connect(mapStateToProps)(FormikForm);
