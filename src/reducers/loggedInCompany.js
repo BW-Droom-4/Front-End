@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
         case SIGN_OUT:
             return initialState;
         case SAVE_COMPANY_JOB_LISTING_SUCCESS:
-            if(action.payload.id === 0) {
+            if(!action.payload.id || action.payload.id === 0) {
                 // add a new listing
                 return {
                     ...state,
