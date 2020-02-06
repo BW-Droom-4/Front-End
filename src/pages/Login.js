@@ -3,9 +3,8 @@ import { withFormik, Form, Field, setNestedObjectValues } from "formik";
 import * as Yup from 'yup';
 import axios from 'axios';
 import styled from "styled-components/macro";
+import shortid from 'shortid';
 import jwt_decode from 'jwt-decode';
-import { connect } from 'react-redux';
-import { signInUser } from '../actions/act';
 
 // let database = ""
 export const LoginContainer = styled.div `
@@ -182,7 +181,6 @@ const FormikLoginForm = withFormik({
             setJTWData(res.data.token);
             localStorage.setItem("role", values.role)
             resetForm();
-            props.signInUser();
             props.history.push("/Dashboard")
             
         })
@@ -193,4 +191,4 @@ const FormikLoginForm = withFormik({
 
 const FormikLogin = FormikLoginForm(Login);
 
-export default connect(null, { signInUser })(FormikLogin);
+export default FormikLogin

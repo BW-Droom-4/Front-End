@@ -5,9 +5,9 @@ import axios from "axios";
 import * as Yup from "yup";
 import styled from 'styled-components/macro';
 
-export const RegisterContainer = styled.div`
-    width: 30%;
-    height: 75%;
+export const RegisterContainer = styled.div `
+    width: 30vw;
+    height: 100%;
     background-color: #F05D5E;
     background-image: linear-gradient(#F05D5E, #FF5A1E);
     border-radius: 10px;
@@ -25,6 +25,28 @@ export const RegisterContainer = styled.div`
     padding-bottom: 10px;
     
 `
+
+export const Error = styled.p `
+    color: yellow;
+    font-size: .7rem;
+    font-weight: normal;
+    line-height: 0.5;
+`
+export const RegisterHeader = styled.h1 `
+    font-weight: bolder;
+    color: #263D42;
+    text-shadow: 1px 1px #63C7B2;
+    font-family: 'Alatsi', sans-serif;
+`
+export const LoginLink = styled.a `
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: #263D42;
+    &:hover {
+        color: #63C7B2;
+      }
+    
+`
 export const RegisterButton = styled.button `
     width: 100px;
     height: 35px;
@@ -37,210 +59,127 @@ export const RegisterButton = styled.button `
     &:hover {
         background: #2A9D8F;
         border: 5px inset #63C7B2;
-    }
+      }
     margin-bottom: 10px;  
 `
-export const LoginLink = styled.a`
-    font-size: 1rem;
-    letter-spacing: 1px;
-    color: #263D42;
-    &:hover {
-        color: #63C7B2;
-    };
-`
-
-export const Error = styled.p`
-    color: yellow;
-    font-size: .7rem;
-    font-weight: normal;
-    line-height: 0.5;
-`
-let requiredToggledFields = null;
-// export const LoginLink = styled.div`
-//     font-size: 10px;
-//     line-height: 0.5;
-// `
-export const RegisterHeader = styled.h1 `
-    font-weight: bolder;
-    color: #263D42;
-    text-shadow: 1px 1px #63C7B2;
-    font-family: 'Alatsi', sans-serif;
-`
-export const DivSizeCorrection = styled.div `
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
+;
 
 const UserForm = ({ values, errors, touched, status }) => {
 
     const [users, setUsers] = useState([]);
-    
-    useEffect(() => {
+         useEffect(() => {
 
         status && setUsers(users => [
             ...users, status
         ]);
     }, [status]);
 
-    useEffect(() => {
-        requiredToggledFields = values.role === "User" ?
-        {
-            firstname: Yup.string().required("Name is Required."),
-            lastname: Yup.string().required("Surname is Required.")
-        }
-        :
-        {
-            companyName: Yup.string().required("Company is Required."),
-        };
-    }, [values.role])
 
-    
-
-    
     return (
-        <DivSizeCorrection>
+        <div>
             <RegisterContainer>
-                <RegisterHeader>Sign Up</RegisterHeader>
+            <RegisterHeader>Create Account</RegisterHeader>
                 <Form>
-                    <label htmlFor="role">
-                        Role:
+                <RegisterHeader>Sign Up</RegisterHeader>
+                    <label htmlFor="firstname">First Name:</label>
+                    <br/>
+                    <Field id="firstname" type="text" name="firstname"/>
+                    <br/>
+                    {touched.firstname && errors.firstname &&
+                    <Error>{errors.firstname}</Error>}
+                    <label htmlFor="lastname">Last Name:</label>
+                    <br/>
+                    <Field id="lastname" type="text" name="lastname" />
+                    <br/>
+                    {touched.lastname && errors.lastname &&
+                    <Error className="errors">{errors.lastname}</Error>}                   
+                    <label html htmlFor="email">
+                    Email:
                     </label>
-                    <br />
+                    <br/>
+                    <Field id="email" type="text" name="email" />
+                    <br/>
+                    {touched.email && errors.email && (
+                    <Error className="errors">{errors.email}</Error>
+                    )}
+                    <label html htmlFor="password">
+                    Password:
+                    </label>
+                    <br/>
+                    <Field id="password" type="password" name="password" />
+                    <br/>
+                    {touched.password && errors.password && (
+                    <Error className="errors">{errors.password}</Error>
+                    )}
+                    <label htmlFor="role">
+                    Role:
+                    </label>
+                    <br/>
                     <Field as="select" id="role" name="role">
-                        <option value="">Choose an Option</option>
+                        <option disabled>Choose an Option</option>
                         <option value="Company" >Looking to Post Jobs</option>
                         <option value="User" >Looking For Jobs</option>
                     </Field>
-                    <br />
+                    <br/>
                     {touched.role && errors.role && (
-                        <Error className="errors">{errors.role}</Error>
-                    )}
-
-                    {values.role === "User" && (
-                        <>
-                            <label htmlFor="firstname">First Name:</label>
-                            <br />
-                            <Field id="firstname" type="text" name="firstname" />
-                            <br />
-                            {touched.firstname && errors.firstname &&
-                                <Error>{errors.firstname}</Error>}
-                            <label htmlFor="lastname">Last Name:</label>
-                            <br />
-                            <Field id="lastname" type="text" name="lastname" />
-                            <br />
-                            {touched.lastname && errors.lastname &&
-                                <Error className="errors">{errors.lastname}</Error>}
-                        </>
-                    )}
-
-                    {values.role === "Company" && (
-                        <>
-                            <label htmlFor="companyName">Company Name:</label>
-                            <br />
-                            <Field id="companyName" type="text" name="companyName" />
-                            <br />
-                            {touched.companyName && errors.companyName &&
-                                <Error>{errors.companyName}</Error>}
-                        </>
-                    )}
-
-                    
-                    <label html htmlFor="email">
-                        Email:
-                    </label>
-                    <br />
-                    <Field id="email" type="text" name="email" />
-                    <br />
-                    {touched.email && errors.email && (
-                        <Error className="errors">{errors.email}</Error>
-                    )}
-                    <label html htmlFor="password">
-                        Password:
-                    </label>
-                    <br />
-                    <Field id="password" type="password" name="password" />
-                    <br />
-                    {touched.password && errors.password && (
-                        <Error className="errors">{errors.password}</Error>
+                    <Error className="errors">{errors.role}</Error>
                     )}
                     <br/>
                     
                     <RegisterButton type="submit">Submit</RegisterButton>
                     <br/>
-                    
+                    <br/>
                     
                     <LoginLink href="/Login">Already Have An Account?</LoginLink>
                    
                 </Form>
             </RegisterContainer>
-        </DivSizeCorrection>
+        </div>
     );
 };
 
 const FormikForm = withFormik({
-    mapPropsToValues({ firstname, lastname, companyName, email, password, role }) {
-        return {
-            firstname: firstname || "",
-            lastname: lastname || "",
-            companyName: companyName || "",
-            email: email || "",
-            password: password || "",
-            role: role || "",
-        };
-    },
+    mapPropsToValues({ firstname, lastname, email, password, role}) {
+    return {
+        firstname: firstname || "",
+        lastname: lastname || "",
+        email: email || "",
+        password: password || "",
+        role: role || "",
+    };
+},
 
-    validationSchema: Yup.object().shape({
-        
-        ...requiredToggledFields,
-        email: Yup.string()
-            .email("Email not valid")
-            .required("Email is Required"),
-        password: Yup.string()
-            .min(8, "Password must be 8 characters or longer")
-            .max(16, "Password must have less than 16 characters")
-            .required("Password is Required."),
-        role: Yup.string().required("Role is Required."),
-    }),
+validationSchema: Yup.object().shape({
+    firstname: Yup.string().required("Name is Required."),
+    lastname: Yup.string().required("Surname is Required."),
+    email: Yup.string()
+        .email("Email not valid")
+        .required("Email is Required"),
+    password: Yup.string()
+    .min(8, "Password must be 8 characters or longer")
+    .max(16, "Password must have less than 16 characters")
+    .required("Password is Required."),
+    role: Yup.string().required("Role is Required."),
+}),
 
-    handleSubmit(values, { props, resetForm, setStatus }) {
-        console.log("submitting", values);
-        console.log('Selected role', values.role);
-
-        if(values.role === "Company"){
-
-            delete values.firstname;
-            delete values.lastname;
-            console.log(values)
-        }
-        else {
-            delete values.companyName;
-        }
-
-        axios
-            .post((values.role === "Company" 
-                ? "https://droom-4.herokuapp.com/api/auth/companies/register"
-                : "https://droom-4.herokuapp.com/api/auth/users/register"), 
-                values,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            .then(res => {
-                console.log('success', res)
-                // localStorage.setItem('token', res.token);
-                // localStorage.setItem("role", values.role)
-                resetForm();
-                props.history.push('/login');
-            })
-            .catch(err => {
-                alert("SIGNUP FAILED ", err);
-            });
-    }
+handleSubmit(values, { props, resetForm, setStatus}) {
+    console.log("submitting", values);
+    axios
+        .post((values.role === "Company") ? "https://droom-4.herokuapp.com/api/auth/companies/register" : "https://droom-4.herokuapp.com/api/auth/users/register", values,
+        {headers: {
+            'Content-Type': 'application/json'
+          }}) 
+        .then(res => {
+            console.log('success', res)
+            // localStorage.setItem('token', res.token);
+            // localStorage.setItem("role", values.role)
+            resetForm();
+            props.history.push('/login');
+        })
+        .catch(err => {
+            alert("SIGNUP FAILED ", err);
+        });
+}
 })(UserForm);
 
 export default FormikForm;

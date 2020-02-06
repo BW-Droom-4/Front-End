@@ -23,12 +23,10 @@ export const MessageContainer = styled.div `
 
 const Messages =() =>{
 
-    
-
 
     return(
         <MessageContainer>
-            
+            These are the messages!
 
         </MessageContainer>
         
