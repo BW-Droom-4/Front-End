@@ -1,3 +1,4 @@
 {
-    "liveshare.allowGuestTaskControl": true
+    "liveshare.allowGuestTaskControl": true,
+    "git.ignoreLimitWarning": true
 }
