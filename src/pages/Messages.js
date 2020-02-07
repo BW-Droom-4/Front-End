@@ -44,7 +44,7 @@ const MatchItem = styled.div `
     border: 2px solid #263D42;
     border-radius: 10px;
     margin: 5px;
-    background-color: rgba(42, 157, 144, 0.475);
+    background-color: rgba(129, 232, 210, 0.412);
     font-size: 1rem;
     color: white;
     
