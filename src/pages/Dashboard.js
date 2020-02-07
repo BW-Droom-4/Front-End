@@ -68,7 +68,6 @@ const Dashboard = props => {
 
   useEffect(() => {
     // set the user in the store
-    // console.log('hit useEffect');
     
     if(userRole === "User") {
 
@@ -273,8 +272,6 @@ const Dashboard = props => {
       console.log(name.firstname + ' left the screen')
     } else console.warn('outOfFrame is failing miserably')
   }
-
-  console.log('card info', testData);
 
   return (
     <DivSizing>
