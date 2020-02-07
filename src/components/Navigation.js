@@ -15,8 +15,6 @@ export const NavigationBar = styled.nav `
   justify-content: space-around;
   align-items: center;
   border-radius: 10px;
-  
-
 `
 export const NavLinkStyle = styled(NavLink)`
     text-decoration: none;
@@ -44,7 +42,7 @@ export const SignOutButton = styled.button `
     &:hover {
         background: #2A9D8F;
         border: 5px inset #63C7B2;
-        // color: yellow;
+        color: #81E8D1;
       }
     
 `
