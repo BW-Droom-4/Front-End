@@ -18,7 +18,8 @@ export const NavigationBar = styled.nav `
   
 
 `
-export const NavLinkStyle = styled(NavLink)`
+
+const linkStyle = `
     text-decoration: none;
     color: #263D42;
     font-weight: bold;
@@ -29,8 +30,15 @@ export const NavLinkStyle = styled(NavLink)`
     &:hover {
         color: yellow;
         text-shadow: 1px 1px 10px #263D42; 
-    }
+    }`;
+
+export const NavLinkStyle = styled(NavLink)`
+    ${linkStyle}
 `
+
+export const LinkStyle = styled.a`
+    ${linkStyle}
+`;
 
 export const SignOutButton = styled.button `
     width: 100px;
@@ -61,6 +69,7 @@ const Navigation =() =>{
     };
     return(
         <NavigationBar>
+            <LinkStyle href="https://bw-droom-4.github.io/Marketing-Page/">Home</LinkStyle>
             <NavLinkStyle to="/dashboard">Dashboard</NavLinkStyle>
             <NavLinkStyle to="/profile">Profile</NavLinkStyle>
             <NavLinkStyle to="/matches">Matches</NavLinkStyle>
