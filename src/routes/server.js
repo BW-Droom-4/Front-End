@@ -37,9 +37,18 @@ export default {
       company : {
         GET : (id) => `/companies/${id}`, ///get company by id
       },
+      company_job_listings : {
+        POST : company_id => `/companies/${company_id}/joblisting`,
+        PUT : (company_id, job_listing_id) => `/companies/${company_id}/joblisting/${job_listing_id}`,
+        DELETE : (company_id, job_listing_id) => `/companies/${company_id}/joblisting/${job_listing_id}`
+      },
       company_match : {
         GET : (id) => `/companies/${id}/match`,
         POST : (id) => `/companies/${id}/match`
+      },
+      user_match : {
+        GET : (id) => `/users/${id}/match`,
+        POST : (id) => `/users/${id}/match`
       }
     },
   }

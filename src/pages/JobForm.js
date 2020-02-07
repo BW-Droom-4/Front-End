@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { connect } from 'react-redux';
+import { connect, dispatch } from 'react-redux';
 import { withFormik, Form, Field } from "formik";
 import authios from "../api/authios";
 import * as Yup from "yup";
 import styled from 'styled-components/macro';
+import { addCompanyJobListing, deleteCompanyJobListing } from '../actions/act';
+
+
 
 export const JobContainer = styled.div`
 width: 50%;
@@ -60,9 +63,10 @@ export const JobButton = styled.button`
 `
 
 
-const JobForm = ({ values, errors, touched, status }) => {
+const JobForm = ({ values, errors, touched, status, loggedInCompany, deleteCompanyJobListing }) => {
 
     const [jobs, setJobs] = useState([]);
+
     useEffect(() => {
 
         status && setJobs(jobs => [
@@ -117,10 +121,49 @@ const JobForm = ({ values, errors, touched, status }) => {
 
                     <JobButton type="submit">Submit</JobButton>
                 </Form>
+
+                <JobHeader>Listed Jobs</JobHeader>
+                {loggedInCompany.joblistings && loggedInCompany.joblistings.length ? (
+                    <table className="jobs">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Expires</th>
+                                <th>Matching Skills</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loggedInCompany.joblistings.map(listing => (
+                                <tr key={listing.id}>
+                                    <td>{listing.job_title}</td>
+                                    <td>{listing.expiry_date}</td>
+                                    <td>{listing.matching_skill}</td>
+                                    <td>
+                                        <JobButton 
+                                            onClick={() => deleteCompanyJobListing(loggedInCompany.id, listing.id)}
+                                        >
+                                            Delete
+                                        </JobButton>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) :(
+                    <p>No jobs listed.</p>
+                )}
+                
             </JobContainer>
 
         </DivSizing>
     );
+};
+
+const mapStateToProps = state => {
+    return {
+        loggedInCompany: state.loggedInCompany
+    }
 };
 
 const FormikForm = withFormik({
@@ -145,27 +188,25 @@ const FormikForm = withFormik({
         const companyId = props.loggedInCompany.id;
         const joblisting = {
             ...values,
-            company_id: companyId,
-            created_at: '',
-            updated: ''
+            company_id: companyId
         };
-        authios()
-            .post(`https://droom-4.herokuapp.com/api/companies/${companyId}/joblisting`, joblisting)
-            .then(res => {
-                console.log('success', res)
-                resetForm();
-                props.history.push('/dashboard');
-            })
-            .catch(err => {
-                alert("Failed To Add New Job.", err);
-            });
+
+        props.addCompanyJobListing(companyId, joblisting);
+        resetForm();
+
+        // authios()
+        //     .post(`https://droom-4.herokuapp.com/api/companies/${companyId}/joblisting`, joblisting)
+        //     .then(res => {
+        //         console.log('success', res)
+        //         resetForm();
+        //         props.history.push('/dashboard');
+        //     })
+        //     .catch(err => {
+        //         alert("Failed To Add New Job.", err);
+        //     });
     }
 })(JobForm);
 
-const mapStateToProps = state => {
-    return {
-        loggedInCompany: state.loggedInCompany
-    }
-};
 
-export default connect(mapStateToProps)(FormikForm);
+
+export default connect(mapStateToProps, { addCompanyJobListing, deleteCompanyJobListing })(FormikForm);

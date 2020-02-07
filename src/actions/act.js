@@ -18,11 +18,16 @@ import {
     SAVE_USER,
     SAVE_USER_SUCCESS,
     SAVE_USER_FAILURE,
-    SAVE_COMPANY,
-    SAVE_COMPANY_SUCCESS,
-    SAVE_COMPANY_FAILURE,
     POST_COMPANY_MATCH,
-    POST_COMPANY_MATCH_SUCCESS
+    POST_COMPANY_MATCH_SUCCESS,
+    POST_USER_MATCH,
+    POST_USER_MATCH_SUCCESS,
+    DELETE_COMPANY_JOB_LISTING,
+    DELETE_COMPANY_JOB_LISTING_SUCCESS,
+    DELETE_COMPANY_JOB_LISTING_FAILURE,
+    SAVE_COMPANY_JOB_LISTING,
+    SAVE_COMPANY_JOB_LISTING_SUCCESS,
+    SAVE_COMPANY_JOB_LISTING_FAILURE
 } from './actions';
 
 export const act = (type, payload) => ({ type, payload })
@@ -116,23 +121,69 @@ export const getUserListings = () => {
     };
 };
 
-export const matchCompany = (companyMatch, userId, loggedInCompanyId) => {
+export const matchCompany = (companyMatch, userId, loggedInCompanyId, direction) => {
     return dispatch => {
 
         dispatch({
             type: POST_COMPANY_MATCH
         });
-        const company = {
-            user_id: userId || loggedInCompanyId,
-            company_id: companyMatch.id,
-            company_liked: "true",
-        };
+
+        let company = {};
+        if(direction === "right"){
+             company = {
+                user_id: userId || loggedInCompanyId,
+                company_id: companyMatch.id,
+                company_liked: "true",
+            };
+        } else if (direction === "left"){
+             company = {
+                user_id: userId || loggedInCompanyId,
+                company_id: companyMatch.id,
+                company_liked: "false",
+            };
+        }
         authios().post(server.base + server.ends.company_match.POST(companyMatch.id), company)
         .then(res => {
             console.log('match res', res);
             dispatch({
                 type: POST_COMPANY_MATCH_SUCCESS,
                 payload: companyMatch
+            })
+        })
+        .catch(
+            err => console.warn(err)
+        )
+    }
+};
+
+export const matchUser = (userMatch, userId, loggedInCompanyId, direction) => {
+    return dispatch => {
+        console.log(direction, 'direction of matchUser')
+        dispatch({
+            type: POST_USER_MATCH
+        });
+        let user = {}
+
+        if(direction === "right"){
+             user = {
+                user_id: userId || loggedInCompanyId,
+                company_id: userMatch.id,
+                user_liked: "true",
+            };
+        } else if (direction === "left"){
+             user = {
+                user_id: userId || loggedInCompanyId,
+                company_id: userMatch.id,
+                user_liked: "false",
+            };
+        }
+
+        authios().post(server.base + server.ends.user_match.POST(userMatch.id), user)
+        .then(res => {
+            console.log('match res', res);
+            dispatch({
+                type: POST_USER_MATCH_SUCCESS,
+                payload: userMatch
             })
         })
         .catch(
@@ -276,7 +327,7 @@ export const getLoggedInCompany = id => {
             type: GET_LOGGED_IN_COMPANY
         });
 
-        authios().get(server.base + server.ends.company.GET(id))
+        authios().get(server.base + server.ends.company_profile.GET(id))
             .then(res => {
                 const { data } = res;
                 const company = {
@@ -300,6 +351,73 @@ export const getLoggedInCompany = id => {
             }));
     };
 };
+
+export const deleteCompanyJobListing = (company_id, job_listing_id) => {
+    return dispatch => {
+        dispatch({
+            type: DELETE_COMPANY_JOB_LISTING
+        });
+
+        authios().delete(server.base + server.ends.company_job_listings.DELETE(company_id, job_listing_id))
+            .then(res => {
+                dispatch({
+                    type: DELETE_COMPANY_JOB_LISTING_SUCCESS,
+                    payload: job_listing_id
+                });
+            })
+            .catch(err => {
+                console.warn(err);
+                dispatch({
+                    type: DELETE_COMPANY_JOB_LISTING_FAILURE,
+                    payload: err.message
+                });
+            });
+    };
+};
+
+export const addCompanyJobListing = (company_id, joblisting) => {
+    return dispatch => {
+        dispatch({
+            type: SAVE_COMPANY_JOB_LISTING
+        });
+
+        if(!joblisting.id) {
+            // new job listing -- POST
+            authios().post(server.base + server.ends.company_job_listings.POST(company_id), joblisting)
+                .then(res => {
+                    dispatch({
+                        type: SAVE_COMPANY_JOB_LISTING_SUCCESS,
+                        payload: joblisting
+                    });
+                })
+                .catch(err => {
+                    console.warn(err);
+                    dispatch({
+                        type: SAVE_COMPANY_JOB_LISTING_FAILURE,
+                        payload: err.message
+                    });
+                });
+        }
+        else {
+            // updating job listing -- PUT
+            authios().post(server.base + server.ends.company_job_listings.PUT(company_id, joblisting.id), joblisting)
+                .then(res => {
+                    dispatch({
+                        type: SAVE_COMPANY_JOB_LISTING_SUCCESS,
+                        payload: joblisting
+                    });
+                })
+                .catch(err => {
+                    console.warn(err);
+                    dispatch({
+                        type: SAVE_COMPANY_JOB_LISTING_FAILURE,
+                        payload: err.message
+                    });
+                });
+        }
+    };
+};
+
 
 export const signInUser = () => {
     return {
