@@ -33,6 +33,7 @@ export const LoginHeader = styled.h1 `
     color: #263D42;
     text-shadow: 1px 1px #63C7B2;
     font-family: 'Alatsi', sans-serif;
+    font-size: 1.8rem;
 `
 export const LoginButton = styled.button `
     width: 100px;
