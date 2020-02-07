@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useSelector } from "react";
 import { connect } from 'react-redux';
 import TinderCard from 'react-tinder-card';
+import UserCard  from '../components/UserCard';
+import CompanyCard from '../components/CompanyCard';
 import { getJobListings, getUserListings, getLoggedInUser, getLoggedInCompany, matchCompany, matchUser  } from '../actions/act';
 import Messages from './Messages';
 import styled from "styled-components/macro";
@@ -272,6 +274,8 @@ const Dashboard = props => {
     } else console.warn('outOfFrame is failing miserably')
   }
 
+  console.log('card info', testData);
+
   return (
     <DivSizing>
 
@@ -284,7 +288,12 @@ const Dashboard = props => {
             onCardLeftScreen={() => outOfFrame(item)}
           >
             <div className='card'>
-              <h3>{item.companyName || item.firstname}</h3>
+              {userRole === "User" ? (
+                <CompanyCard company={item} />
+                
+              ) : (
+                <UserCard user={item} />
+              )}
             </div>
           </TinderCard>
         )}
