@@ -66,6 +66,7 @@ export const RegisterHeader = styled.h1 `
     color: #263D42;
     text-shadow: 1px 1px #63C7B2;
     font-family: 'Alatsi', sans-serif;
+    font-size: 1.8rem;
 `
 export const DivSizeCorrection = styled.div `
     width: 100%;

@@ -15,8 +15,6 @@ export const NavigationBar = styled.nav `
   justify-content: space-around;
   align-items: center;
   border-radius: 10px;
-  
-
 `
 export const NavLinkStyle = styled(NavLink)`
     text-decoration: none;
